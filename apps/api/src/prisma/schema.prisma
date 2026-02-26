@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Tier {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum JobStatus {
+  PENDING
+  PROCESSING
+  DONE
+  FAILED
+}
+
+enum CompressionLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  TRIALING
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String?
+  googleId     String?  @unique
+  tier         Tier     @default(FREE)
+  dailyUploads Int      @default(0)
+  dailyResetAt DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  jobs         CompressionJob[]
+  apiKeys      ApiKey[]
+  subscription Subscription?
+  payments     Payment[]
+  usageLogs    UsageLog[]
+
+  @@index([email])
+}
+
+model CompressionJob {
+  id             String           @id @default(cuid())
+  userId         String?
+  user           User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  batchId        String?
+  status         JobStatus        @default(PENDING)
+  originalName   String
+  originalSize   Int
+  compressedSize Int?
+  mimeType       String
+  level          CompressionLevel @default(MEDIUM)
+  storagePath    String
+  outputPath     String?
+  errorMessage   String?
+  createdAt      DateTime         @default(now())
+  completedAt    DateTime?
+  expiresAt      DateTime
+
+  @@index([userId])
+  @@index([status])
+  @@index([batchId])
+  @@index([expiresAt])
+}
+
+model ApiKey {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  keyHash    String    @unique
+  prefix     String
+  name       String
+  lastUsedAt DateTime?
+  rateLimit  Int       @default(20)
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+
+  usageLogs UsageLog[]
+
+  @@index([userId])
+  @@index([keyHash])
+}
+
+model Subscription {
+  id               String             @id @default(cuid())
+  userId           String             @unique
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeCustomerId String?
+  stripePriceId    String?
+  stripeSubId      String?            @unique
+  status           SubscriptionStatus
+  currentPeriodEnd DateTime?
+  cancelAtEnd      Boolean            @default(false)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripePaymentId String   @unique
+  amount          Int
+  currency        String   @default("usd")
+  status          String
+  description     String?
+  createdAt       DateTime @default(now())
+
+  @@index([userId])
+}
+
+model UsageLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  apiKeyId  String?
+  apiKey    ApiKey?  @relation(fields: [apiKeyId], references: [id], onDelete: SetNull)
+  endpoint  String
+  bytes     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}

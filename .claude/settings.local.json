@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import sys,json; data=json.load\\(sys.stdin\\); print\\(data[0][''text'']\\)\")",
+      "Bash(npm --version)",
+      "Bash(node --version)",
+      "Bash(npm install -g pnpm@latest)",
+      "Bash(export PATH=\"$HOME/.nvm/versions/node/v22.21.0/bin:$PATH\")",
+      "Bash(pnpm install)",
+      "Bash(pnpm approve-builds)",
+      "Bash(pnpm db:generate)",
+      "Bash(pnpm type-check)",
+      "Bash(pnpm --filter api add firebase-admin)",
+      "Bash(pnpm --filter api remove firebase-admin)",
+      "Bash(pnpm --filter api add @supabase/supabase-js)"
+    ]
+  }
+}
