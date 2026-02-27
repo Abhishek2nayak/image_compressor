@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx prisma generate --schema=src/prisma/schema.prisma)",
+      "Bash(npx tsc --noEmit)",
+      "WebFetch(domain:render.com)"
+    ]
+  }
+}
