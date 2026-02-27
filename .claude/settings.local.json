@@ -12,7 +12,9 @@
       "Bash(pnpm type-check)",
       "Bash(pnpm --filter api add firebase-admin)",
       "Bash(pnpm --filter api remove firebase-admin)",
-      "Bash(pnpm --filter api add @supabase/supabase-js)"
+      "Bash(pnpm --filter api add @supabase/supabase-js)",
+      "Bash(node -e \"const {defineConfig} = require\\(''./node_modules/prisma/config.js''\\); console.log\\(typeof defineConfig\\)\")",
+      "Bash(node -e \":*)"
     ]
   }
 }
