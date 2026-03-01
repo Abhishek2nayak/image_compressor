@@ -3,7 +3,14 @@
     "allow": [
       "Bash(npx prisma generate --schema=src/prisma/schema.prisma)",
       "Bash(npx tsc --noEmit)",
-      "WebFetch(domain:render.com)"
+      "WebFetch(domain:render.com)",
+      "Bash(npx tsc)",
+      "Bash(pnpm --filter web add jspdf @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities)",
+      "Bash(pnpm --filter web add pdf-lib)",
+      "Bash(pnpm --filter web add pdfjs-dist)"
+    ],
+    "additionalDirectories": [
+      "/home/abhishek-nayak/Desktop/my projects/image-compressor/apps/web/src/app"
     ]
   }
 }

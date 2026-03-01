@@ -3,13 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import { ImageIcon, LayoutDashboard, Key, LogOut, Zap } from 'lucide-react';
+import { ImageIcon, LayoutDashboard, Key, LogOut, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const nav = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/', label: 'Compress', icon: ImageIcon },
-  { href: '/api-keys', label: 'API Keys', icon: Key },
+  { href: '/dashboard',       label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/compress-image',  label: 'Compress',  icon: ImageIcon },
+  { href: '/api-keys',        label: 'API Keys',  icon: Key },
 ];
 
 export function Sidebar() {
@@ -18,10 +18,10 @@ export function Sidebar() {
   return (
     <aside className="w-56 bg-white border-r flex flex-col py-6 px-3 shrink-0">
       <Link href="/" className="flex items-center gap-2 px-3 mb-8">
-        <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center">
-          <Zap className="w-4 h-4 text-white" />
+        <div className="w-7 h-7 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
+          <FileText className="w-4 h-4 text-white" />
         </div>
-        <span className="font-bold text-lg">ImagePress</span>
+        <span className="font-bold text-lg">Easy PDF Studio</span>
       </Link>
 
       <nav className="flex-1 space-y-1">
