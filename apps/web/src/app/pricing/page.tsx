@@ -4,22 +4,34 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
-import { Check, FileText, Loader2, ArrowRight } from 'lucide-react';
+import { Check, FileText, Loader2, ArrowRight, ChevronDown } from 'lucide-react';
 import api from '@/lib/api';
 import { cn } from '@/lib/utils';
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Razorpay: new (options: Record<string, unknown>) => {
+      open(): void;
+    };
+  }
+}
+
+// ── Constants ─────────────────────────────────────────────────────────────────
 
 const PLANS = [
   {
     name: 'Free',
-    price: { monthly: '$0', annual: '$0' },
-    description: 'Perfect for personal projects and occasional use.',
+    price: { monthly: '₹0', annual: '₹0' },
+    description: 'Perfect for personal use and occasional tasks.',
     features: [
-      '10 images per day',
-      '25 MB max file size',
-      'JPEG, PNG, WebP, AVIF',
-      'Quality slider (1–100)',
-      'API access (20 req / hr)',
-      'Files deleted after 24h',
+      '3 operations/day (guest) · 20/day (signed in)',
+      '15 pages per operation',
+      '10 MB max file size',
+      'All 4 tools — compress, convert, merge, split',
+      'Browser-side processing · no uploads',
     ],
     cta: 'Get started free',
     href: '/register',
@@ -27,15 +39,14 @@ const PLANS = [
   },
   {
     name: 'Pro',
-    price: { monthly: '$12', annual: '$9' },
-    description: 'For professionals, teams, and high-volume workflows.',
+    price: { monthly: '₹999', annual: '₹749' },
+    description: 'For professionals and high-volume workflows.',
     features: [
-      '500 images per day',
-      '25 MB max file size',
-      'All formats supported',
-      'Batch processing + ZIP',
+      'Unlimited operations/day',
+      '200 pages per operation',
+      '100 MB max file size',
+      'All 4 tools + future tools',
       'API access (500 req / hr)',
-      'Full compression history',
       'Priority support',
     ],
     cta: 'Upgrade to Pro',
@@ -44,12 +55,27 @@ const PLANS = [
   },
 ];
 
-const FAQ_PRICING = [
-  { q: 'Can I cancel my subscription at any time?', a: 'Yes — cancel anytime from your billing portal. Your Pro access continues until the end of the current billing period.' },
-  { q: 'What happens to my data when I cancel?', a: 'Your account and compression history are preserved. You simply revert to the Free plan limits.' },
-  { q: 'Do you offer refunds?', a: 'Yes. If you are not satisfied within the first 7 days of a new subscription, contact us for a full refund.' },
-  { q: 'Is there a free trial for Pro?', a: 'The Free plan lets you evaluate the core compression quality with no time limit. Upgrade only when you need higher volume or API access.' },
+const FAQS = [
+  { q: 'Can I cancel my subscription at any time?', a: 'Yes — cancel anytime from your account settings. Your Pro access continues until the end of the current billing period with no extra charges.' },
+  { q: 'What happens to my account when I cancel?', a: 'Your account stays active on the Free plan. All your history is preserved; you simply revert to Free limits.' },
+  { q: 'Do you offer refunds?', a: 'Yes. If you are not satisfied within the first 7 days of a new Pro subscription, contact us for a full refund — no questions asked.' },
+  { q: 'Are payments secure?', a: 'Payments are processed by Razorpay, a PCI DSS-compliant payment gateway trusted by 500,000+ businesses in India. We never store your card details.' },
 ];
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function loadRazorpayScript(): Promise<boolean> {
+  return new Promise(resolve => {
+    if (typeof window !== 'undefined' && window.Razorpay) { resolve(true); return; }
+    const script    = document.createElement('script');
+    script.src      = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload   = () => resolve(true);
+    script.onerror  = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function PricingPage() {
   const { data: session } = useSession();
@@ -61,10 +87,48 @@ export default function PricingPage() {
     if (!session) return;
     setLoading(true);
     try {
-      const res = await api.post('/api/v1/billing/checkout');
-      window.location.href = res.data.data.url;
+      const ok = await loadRazorpayScript();
+      if (!ok) { toast.error('Could not load payment gateway — check your connection.'); return; }
+
+      // Step 1 — create Razorpay subscription on server
+      const res = await api.post('/api/v1/billing/subscription');
+      const { subscriptionId, keyId } = res.data.data as { subscriptionId: string; keyId: string };
+
+      // Step 2 — open Razorpay modal; wait for success or dismiss
+      await new Promise<void>((resolve, reject) => {
+        const options: Record<string, unknown> = {
+          key:             keyId,
+          subscription_id: subscriptionId,
+          name:            'Easy PDF Studio',
+          description:     `Pro Plan — ${annual ? '₹749/month (annual)' : '₹999/month'}`,
+          theme:           { color: '#ef4444' },
+          prefill: {
+            name:  session.user?.name  ?? '',
+            email: session.user?.email ?? '',
+          },
+          handler: async (response: Record<string, unknown>) => {
+            try {
+              // Step 3 — verify payment signature on server (activates Pro tier)
+              await api.post('/api/v1/billing/subscription/verify', {
+                razorpay_payment_id:      response['razorpay_payment_id'],
+                razorpay_subscription_id: response['razorpay_subscription_id'],
+                razorpay_signature:       response['razorpay_signature'],
+              });
+              toast.success('🎉 Welcome to Pro! Redirecting…');
+              setTimeout(() => { window.location.href = '/dashboard?upgraded=true'; }, 1500);
+              resolve();
+            } catch {
+              reject(new Error('Payment verification failed. Please contact support.'));
+            }
+          },
+          modal: { ondismiss: () => reject(new Error('dismissed')) },
+        };
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      });
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Failed to start checkout');
+      const msg = err instanceof Error ? err.message : '';
+      if (msg && msg !== 'dismissed') toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -90,7 +154,7 @@ export default function PricingPage() {
             ) : (
               <>
                 <Link href="/login"    className="font-medium text-slate-500 hover:text-slate-900 transition-colors hidden sm:block">Sign in</Link>
-                <Link href="/register" className="bg-indigo-600 text-white rounded-lg px-4 py-1.5 font-semibold hover:bg-indigo-700 transition-colors shadow-sm">
+                <Link href="/register" className="bg-red-500 text-white rounded-lg px-4 py-1.5 font-semibold hover:bg-red-600 transition-colors shadow-sm">
                   Get started free
                 </Link>
               </>
@@ -103,8 +167,8 @@ export default function PricingPage() {
 
         {/* Hero */}
         <section className="relative overflow-hidden py-20 text-center">
-          <div className="absolute inset-0 bg-gradient-to-b from-indigo-50/60 to-transparent pointer-events-none" />
-          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-r from-indigo-100/40 via-violet-100/40 to-purple-100/40 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-red-50/40 to-transparent pointer-events-none" />
+          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-r from-red-100/30 via-orange-100/30 to-yellow-100/30 rounded-full blur-3xl pointer-events-none" />
           <div className="relative max-w-2xl mx-auto px-4">
             <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 mb-4">
               Simple, transparent pricing
@@ -139,11 +203,11 @@ export default function PricingPage() {
                   key={plan.name}
                   className={cn(
                     'rounded-2xl border bg-white p-8 shadow-sm transition-shadow hover:shadow-md',
-                    plan.highlight && 'border-indigo-300 ring-2 ring-indigo-500/20 shadow-md shadow-indigo-100',
+                    plan.highlight && 'border-red-300 ring-2 ring-red-500/20 shadow-md shadow-red-100',
                   )}
                 >
                   {plan.highlight && (
-                    <div className="flex items-center gap-1.5 text-indigo-600 text-xs font-bold mb-4 bg-indigo-50 border border-indigo-100 rounded-full px-3 py-1 w-fit">
+                    <div className="flex items-center gap-1.5 text-red-600 text-xs font-bold mb-4 bg-red-50 border border-red-100 rounded-full px-3 py-1 w-fit">
                       <FileText className="w-3 h-3" /> Most popular
                     </div>
                   )}
@@ -154,33 +218,43 @@ export default function PricingPage() {
                       {annual ? plan.price.annual : plan.price.monthly}
                     </span>
                     {plan.name !== 'Free' && (
-                      <span className="text-slate-400 text-sm font-medium">/ month{annual ? ', billed annually' : ''}</span>
+                      <span className="text-slate-400 text-sm font-medium">
+                        / month{annual ? ', billed annually' : ''}
+                      </span>
                     )}
                   </div>
                   <ul className="space-y-3 mb-8">
                     {plan.features.map(f => (
                       <li key={f} className="flex items-start gap-2.5 text-sm text-slate-600">
-                        <Check className="w-4 h-4 text-indigo-500 shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                         {f}
                       </li>
                     ))}
                   </ul>
+
                   {plan.highlight ? (
                     session ? (
                       <button
-                        onClick={handleUpgrade} disabled={loading}
-                        className="w-full flex items-center justify-center gap-2 bg-indigo-600 text-white rounded-xl py-3.5 font-bold hover:bg-indigo-700 transition-colors disabled:opacity-60 shadow-sm"
+                        onClick={handleUpgrade}
+                        disabled={loading}
+                        className="w-full flex items-center justify-center gap-2 bg-red-500 text-white rounded-xl py-3.5 font-bold hover:bg-red-600 transition-colors disabled:opacity-60 shadow-sm"
                       >
                         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
                         {plan.cta}
                       </button>
                     ) : (
-                      <Link href="/register" className="flex items-center justify-center gap-2 w-full bg-indigo-600 text-white rounded-xl py-3.5 font-bold text-center hover:bg-indigo-700 transition-colors shadow-sm">
-                        <ArrowRight className="w-4 h-4" /> {plan.cta}
+                      <Link
+                        href="/register"
+                        className="flex items-center justify-center gap-2 w-full bg-red-500 text-white rounded-xl py-3.5 font-bold text-center hover:bg-red-600 transition-colors shadow-sm"
+                      >
+                        <ArrowRight className="w-4 h-4" /> Sign up to upgrade
                       </Link>
                     )
                   ) : (
-                    <Link href={plan.href ?? '/register'} className="flex items-center justify-center gap-2 w-full border border-slate-200 rounded-xl py-3.5 font-bold text-center hover:bg-slate-50 transition-colors text-slate-700">
+                    <Link
+                      href={plan.href ?? '/register'}
+                      className="flex items-center justify-center gap-2 w-full border border-slate-200 rounded-xl py-3.5 font-bold text-center hover:bg-slate-50 transition-colors text-slate-700"
+                    >
                       {plan.cta}
                     </Link>
                   )}
@@ -188,7 +262,7 @@ export default function PricingPage() {
               ))}
             </div>
             <p className="text-center text-sm text-slate-400 mt-6">
-              No credit card required for Free plan · Cancel Pro anytime · 7-day money-back guarantee
+              No credit card required for Free plan · Cancel Pro anytime · 7-day money-back guarantee · Secured by Razorpay
             </p>
           </div>
         </section>
@@ -198,14 +272,14 @@ export default function PricingPage() {
           <div className="max-w-2xl mx-auto px-4">
             <h2 className="text-2xl font-black text-slate-900 mb-8 text-center">Pricing questions</h2>
             <div className="space-y-2.5">
-              {FAQ_PRICING.map((faq, i) => (
+              {FAQS.map((faq, i) => (
                 <div key={i} className="border border-slate-200 rounded-2xl overflow-hidden shadow-sm bg-white">
                   <button
                     className="w-full flex items-center justify-between px-5 py-4 text-left gap-4 hover:bg-slate-50 transition-colors"
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   >
                     <span className="font-bold text-slate-800 text-sm">{faq.q}</span>
-                    <span className={cn('text-slate-400 text-lg leading-none transition-transform duration-200 shrink-0', openFaq === i && 'rotate-45')}>+</span>
+                    <ChevronDown className={cn('w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200', openFaq === i && 'rotate-180')} />
                   </button>
                   {openFaq === i && (
                     <div className="px-5 pb-4 text-sm text-slate-500 leading-relaxed border-t border-slate-100 pt-3">
@@ -230,9 +304,9 @@ export default function PricingPage() {
             <span className="font-bold text-white">Easy PDF Studio</span>
           </Link>
           <div className="flex gap-6">
-            <Link href="/"      className="hover:text-white transition-colors">Compress</Link>
-            <Link href="/docs"  className="hover:text-white transition-colors">API Docs</Link>
-            <Link href="/login" className="hover:text-white transition-colors">Sign in</Link>
+            <Link href="/"         className="hover:text-white transition-colors">Tools</Link>
+            <Link href="/pricing"  className="hover:text-white transition-colors">Pricing</Link>
+            <Link href="/login"    className="hover:text-white transition-colors">Sign in</Link>
           </div>
           <span className="text-xs">© {new Date().getFullYear()} Easy PDF Studio</span>
         </div>

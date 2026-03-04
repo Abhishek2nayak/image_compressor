@@ -97,7 +97,7 @@ export default function HomePage() {
             <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-500">
               <Link href="#tools"        className="hover:text-slate-900 transition-colors">Tools</Link>
               <Link href="#how-it-works" className="hover:text-slate-900 transition-colors">How it works</Link>
-              <Link href="#formats"      className="hover:text-slate-900 transition-colors">Formats</Link>
+              <Link href="/pricing"      className="hover:text-slate-900 transition-colors">Pricing</Link>
             </nav>
             <div className="flex items-center gap-2.5 text-sm shrink-0">
               {session ? (

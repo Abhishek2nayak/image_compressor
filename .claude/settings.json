@@ -7,7 +7,22 @@
       "Bash(npx tsc)",
       "Bash(pnpm --filter web add jspdf @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities)",
       "Bash(pnpm --filter web add pdf-lib)",
-      "Bash(pnpm --filter web add pdfjs-dist)"
+      "Bash(pnpm --filter web add pdfjs-dist)",
+      "Read(//home/abhishek-nayak/Desktop/my\\\\ projects/image-compressor/apps/api/src/prisma/**)",
+      "Read(//home/abhishek-nayak/Desktop/my\\\\ projects/image-compressor/apps/api/src/config/**)",
+      "Bash(pnpm --filter api add razorpay)",
+      "Bash(~/.local/share/pnpm/pnpm --filter api add razorpay)",
+      "Bash(npm root -g)",
+      "Bash(node -e \"require\\(''child_process''\\).execSync\\(''pnpm --version'', {stdio:''inherit''}\\)\")",
+      "Read(//usr/local/bin/**)",
+      "Read(//home/**)",
+      "Read(//usr/bin/**)",
+      "Bash(/home/abhishek-nayak/.nvm/versions/node/v22.21.0/bin/pnpm --filter api add razorpay)",
+      "Bash(/home/abhishek-nayak/.nvm/versions/node/v22.21.0/bin/node ../node_modules/.bin/prisma generate --schema src/prisma/schema.prisma)",
+      "Bash(/home/abhishek-nayak/.nvm/versions/node/v22.21.0/bin/pnpm --filter api db:generate)",
+      "Bash(/home/abhishek-nayak/.nvm/versions/node/v22.21.0/bin/node ../node_modules/.bin/tsc --noEmit)",
+      "Bash(/home/abhishek-nayak/.nvm/versions/node/v22.21.0/bin/pnpm --filter api type-check)",
+      "Bash(/home/abhishek-nayak/.nvm/versions/node/v22.21.0/bin/pnpm --filter web type-check)"
     ],
     "additionalDirectories": [
       "/home/abhishek-nayak/Desktop/my projects/image-compressor/apps/web/src/app"
