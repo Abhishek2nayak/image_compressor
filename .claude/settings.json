@@ -22,7 +22,8 @@
       "Bash(/home/abhishek-nayak/.nvm/versions/node/v22.21.0/bin/pnpm --filter api db:generate)",
       "Bash(/home/abhishek-nayak/.nvm/versions/node/v22.21.0/bin/node ../node_modules/.bin/tsc --noEmit)",
       "Bash(/home/abhishek-nayak/.nvm/versions/node/v22.21.0/bin/pnpm --filter api type-check)",
-      "Bash(/home/abhishek-nayak/.nvm/versions/node/v22.21.0/bin/pnpm --filter web type-check)"
+      "Bash(/home/abhishek-nayak/.nvm/versions/node/v22.21.0/bin/pnpm --filter web type-check)",
+      "Bash(npx prisma migrate reset --schema=src/prisma/schema.prisma --force)"
     ],
     "additionalDirectories": [
       "/home/abhishek-nayak/Desktop/my projects/image-compressor/apps/web/src/app"
