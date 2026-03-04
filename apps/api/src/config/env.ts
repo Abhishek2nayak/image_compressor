@@ -14,9 +14,10 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
 
-  STRIPE_SECRET_KEY: z.string().optional(),
-  STRIPE_WEBHOOK_SECRET: z.string().optional(),
-  STRIPE_PRO_PRICE_ID: z.string().optional(),
+  RAZORPAY_KEY_ID: z.string().optional(),
+  RAZORPAY_KEY_SECRET: z.string().optional(),
+  RAZORPAY_PLAN_ID: z.string().optional(),          // created in Razorpay dashboard
+  RAZORPAY_WEBHOOK_SECRET: z.string().optional(),
 
   STORAGE_DRIVER: z.enum(['local', 's3', 'supabase']).default('local'),
   UPLOAD_DIR: z.string().default('./uploads'),

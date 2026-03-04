@@ -6,35 +6,36 @@ import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const BASE_URL = 'https://imagepress.app';
+const BASE_URL = 'https://easypdfstudio.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'ImagePress — Free Online Image Compressor',
-    template: '%s | ImagePress',
+    default: 'Easy PDF Studio — Free Online Image & PDF Tools',
+    template: '%s | Easy PDF Studio',
   },
   description:
-    'Compress JPEG, PNG, WebP and AVIF images online for free. Reduce file size by up to 80% without visible quality loss. No sign-up required.',
+    'Free online tools for images and PDFs. Compress JPEG, PNG, WebP and AVIF files by up to 80% without visible quality loss. No sign-up required.',
   keywords: [
     'image compressor', 'compress images online', 'reduce image size', 'jpg compressor',
     'png compressor', 'webp compressor', 'avif compressor', 'free image compression',
-    'compress jpeg online', 'reduce png file size', 'image optimizer',
+    'compress jpeg online', 'reduce png file size', 'image optimizer', 'pdf tools',
+    'easy pdf studio',
   ],
-  authors: [{ name: 'ImagePress' }],
+  authors: [{ name: 'Easy PDF Studio' }],
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: BASE_URL,
-    siteName: 'ImagePress',
-    title: 'ImagePress — Free Online Image Compressor',
+    siteName: 'Easy PDF Studio',
+    title: 'Easy PDF Studio — Free Online Image & PDF Tools',
     description:
-      'Compress JPEG, PNG, WebP and AVIF images online for free. Reduce file size by up to 80% without visible quality loss.',
+      'Free online tools for images and PDFs. Compress JPEG, PNG, WebP and AVIF files without quality loss.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ImagePress — Free Online Image Compressor',
-    description: 'Compress JPEG, PNG, WebP and AVIF images online for free. Up to 80% smaller files.',
+    title: 'Easy PDF Studio — Free Online Image & PDF Tools',
+    description: 'Compress images and work with PDFs online. Free, fast, no sign-up required.',
   },
   robots: {
     index: true,

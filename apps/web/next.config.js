@@ -6,11 +6,15 @@ const nextConfig = {
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
     ],
   },
-  // Pricing and docs are temporarily hidden — redirect to home
+  webpack: (config) => {
+    // pdfjs-dist tries to import the Node.js 'canvas' package for server-side
+    // rendering; tell webpack to stub it out so the browser bundle works.
+    config.resolve.alias.canvas = false;
+    return config;
+  },
   async redirects() {
     return [
-      { source: '/pricing', destination: '/', permanent: false },
-      { source: '/docs',    destination: '/', permanent: false },
+      { source: '/docs', destination: '/', permanent: false },
     ];
   },
 };

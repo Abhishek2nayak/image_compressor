@@ -8,17 +8,17 @@ const PLANS = [
     id: 'free',
     name: 'Free',
     price: 0,
-    currency: 'usd',
+    currency: 'inr',
     interval: null,
-    features: ['10 uploads/day', '25MB max file size', 'JPG, PNG, WebP, AVIF', 'Basic compression'],
+    features: ['10 operations/day', '15 pages per operation', '10 MB max file size', 'All 4 tools', 'Browser-side processing'],
   },
   {
     id: 'pro',
     name: 'Pro',
-    price: 1200,
-    currency: 'usd',
+    price: 99900,   // ₹999 in paise
+    currency: 'inr',
     interval: 'month',
-    features: ['500 uploads/day', '25MB max file size', 'All formats', 'Batch processing', 'API access (500 req/hr)', 'Priority support'],
+    features: ['Unlimited operations/day', '200 pages per operation', '100 MB max file size', 'All 4 tools', 'API access (500 req/hr)', 'Priority support'],
   },
 ];
 
@@ -27,28 +27,54 @@ export const billingController = {
     res.json({ success: true, data: PLANS });
   },
 
-  async createCheckout(req: Request, res: Response, next: NextFunction) {
+  /** Create a Razorpay subscription — returns subscriptionId + keyId for the frontend. */
+  async createSubscription(req: Request, res: Response, next: NextFunction) {
     try {
       const user = req.user!;
-      const result = await billingService.createCheckoutSession(user.id, user.email);
+      const result = await billingService.createSubscription(user.id, user.email);
       res.json({ success: true, data: result });
     } catch (err) {
       next(err);
     }
   },
 
-  async createPortal(req: Request, res: Response, next: NextFunction) {
+  /** Verify payment signature after Razorpay modal closes successfully. */
+  async verifyPayment(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await billingService.createPortalSession(req.user!.id);
+      const { razorpay_payment_id, razorpay_subscription_id, razorpay_signature } = req.body as {
+        razorpay_payment_id: string;
+        razorpay_subscription_id: string;
+        razorpay_signature: string;
+      };
+      if (!razorpay_payment_id || !razorpay_subscription_id || !razorpay_signature) {
+        return next(new AppError('Missing payment fields', 400, 'MISSING_FIELDS'));
+      }
+      const result = await billingService.verifyPayment({
+        razorpay_payment_id,
+        razorpay_subscription_id,
+        razorpay_signature,
+        userId: req.user!.id,
+      });
       res.json({ success: true, data: result });
     } catch (err) {
       next(err);
     }
   },
 
+  /** Cancel the active subscription at end of current period. */
+  async cancelSubscription(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await billingService.cancelSubscription(req.user!.id);
+      res.json({ success: true, data: result });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  /** Razorpay webhook — signature is in x-razorpay-signature header. */
   async webhook(req: Request, res: Response, next: NextFunction) {
     try {
-      const signature = req.headers['stripe-signature'] as string;
+      const signature = req.headers['x-razorpay-signature'] as string;
       if (!signature) return next(new AppError('Missing signature', 400, 'MISSING_SIGNATURE'));
       await billingService.handleWebhook(req.body as Buffer, signature);
       res.json({ received: true });

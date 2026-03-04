@@ -12,6 +12,7 @@ import compressionRoutes from './modules/compression/compression.routes';
 import userRoutes from './modules/user/user.routes';
 import apiKeyRoutes from './modules/apiKeys/apiKeys.routes';
 import billingRoutes from './modules/billing/billing.routes';
+import toolUsageRoutes from './modules/toolUsage/toolUsage.routes';
 
 const app: express.Application = express();
 
@@ -43,6 +44,7 @@ app.use('/api/v1/compress', compressionRoutes);
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/api-keys', apiKeyRoutes);
 app.use('/api/v1/billing', billingRoutes);
+app.use('/api/v1/tools',   toolUsageRoutes);
 
 // 404
 app.use((_req, res) => res.status(404).json({ success: false, error: 'Route not found' }));

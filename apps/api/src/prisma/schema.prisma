@@ -51,6 +51,7 @@ model User {
   subscription Subscription?
   payments     Payment[]
   usageLogs    UsageLog[]
+  toolUsages   ToolUsage[]
 
   @@index([email])
 }
@@ -98,31 +99,44 @@ model ApiKey {
 }
 
 model Subscription {
-  id               String             @id @default(cuid())
-  userId           String             @unique
-  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  stripeCustomerId String?
-  stripePriceId    String?
-  stripeSubId      String?            @unique
-  status           SubscriptionStatus
-  currentPeriodEnd DateTime?
-  cancelAtEnd      Boolean            @default(false)
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  id                String             @id @default(cuid())
+  userId            String             @unique
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  razorpaySubId     String?            @unique
+  razorpayPlanId    String?
+  status            SubscriptionStatus
+  currentPeriodEnd  DateTime?
+  cancelAtEnd       Boolean            @default(false)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 }
 
 model Payment {
-  id              String   @id @default(cuid())
-  userId          String
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  stripePaymentId String   @unique
-  amount          Int
-  currency        String   @default("usd")
-  status          String
-  description     String?
-  createdAt       DateTime @default(now())
+  id                 String   @id @default(cuid())
+  userId             String
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  razorpayPaymentId  String   @unique
+  amount             Int
+  currency           String   @default("inr")
+  status             String
+  description        String?
+  createdAt          DateTime @default(now())
 
   @@index([userId])
+}
+
+model ToolUsage {
+  id        String    @id @default(cuid())
+  userId    String?
+  user      User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  tool      String    // 'split-pdf' | 'merge-pdf' | 'jpg-to-pdf' | 'compress-image'
+  pageCount Int       @default(0)
+  fileCount Int       @default(1)
+  ipAddress String?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, createdAt])
+  @@index([ipAddress, createdAt])
 }
 
 model UsageLog {

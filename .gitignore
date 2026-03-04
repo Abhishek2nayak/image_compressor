@@ -36,3 +36,5 @@ apps/api/src/prisma/migrations/
 
 # Test coverage
 coverage/
+
+.claude

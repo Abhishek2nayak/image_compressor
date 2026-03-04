@@ -42,7 +42,7 @@ export default function DocsPage() {
     <div className="min-h-screen bg-background">
       <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-primary">ImagePress</Link>
+          <Link href="/" className="text-xl font-bold text-primary">Easy PDF Studio</Link>
           <Link href="/register" className="text-sm bg-primary text-primary-foreground rounded-md px-4 py-1.5 hover:opacity-90 transition-opacity">Get API key</Link>
         </div>
       </nav>
