@@ -27,6 +27,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { cn } from '@/lib/utils';
+import { CloudFilePicker } from '@/components/CloudFilePicker';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -425,7 +426,14 @@ export default function JpgToPdfPage() {
               Select Images
             </button>
 
-            <div className="flex items-center gap-2 mt-6 flex-wrap justify-center">
+            <div className="flex items-center gap-3 mt-4">
+              <span className="h-px flex-1 bg-slate-200" />
+              <span className="text-xs text-slate-400 font-medium">or import from</span>
+              <span className="h-px flex-1 bg-slate-200" />
+            </div>
+            <CloudFilePicker onFiles={addFiles} accept="image" multiple />
+
+            <div className="flex items-center gap-2 mt-4 flex-wrap justify-center">
               {['JPEG', 'PNG', 'WebP', 'AVIF'].map(f => (
                 <span key={f} className="text-xs text-slate-500 bg-white border border-slate-200 rounded-full px-3 py-1 shadow-sm">
                   {f}

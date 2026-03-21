@@ -6,7 +6,7 @@ import { useSession, signIn } from 'next-auth/react';
 import {
   FileText, ChevronDown, Shield, Clock,
   Layers, Code2, Gauge, ImageIcon,
-  ArrowRight, FilePlus2, Scissors,
+  ArrowRight, FilePlus2, Scissors, Minimize2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -163,7 +163,7 @@ export default function HomePage() {
                 <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-3">Our Tools</h2>
                 <p className="text-slate-500 text-lg">Everything you need to work with images and PDFs, online and free.</p>
               </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {/* Image Compressor tool card */}
                 <Link
                   href="/compress-image"
@@ -229,6 +229,23 @@ export default function HomePage() {
                   </p>
                   <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-green-600 group-hover:gap-2.5 transition-all">
                     Split PDF <ArrowRight className="w-4 h-4" />
+                  </div>
+                </Link>
+
+                {/* Compress PDF tool card */}
+                <Link
+                  href="/compress-pdf"
+                  className="group bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
+                >
+                  <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-purple-100 transition-colors">
+                    <Minimize2 className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <h3 className="font-bold text-slate-800 mb-1.5 text-lg">Compress PDF</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed flex-1">
+                    Reduce PDF file size by re-optimising its internal structure. Quota-enforced, processed securely on our servers.
+                  </p>
+                  <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-purple-600 group-hover:gap-2.5 transition-all">
+                    Compress PDF <ArrowRight className="w-4 h-4" />
                   </div>
                 </Link>
               </div>
@@ -380,6 +397,7 @@ export default function HomePage() {
                   <li><Link href="/jpg-to-pdf"      className="hover:text-white transition-colors">JPG to PDF</Link></li>
                   <li><Link href="/merge-pdf"       className="hover:text-white transition-colors">Merge PDF</Link></li>
                   <li><Link href="/split-pdf"       className="hover:text-white transition-colors">Split PDF</Link></li>
+                  <li><Link href="/compress-pdf"   className="hover:text-white transition-colors">Compress PDF</Link></li>
                 </ul>
               </div>
               <div>

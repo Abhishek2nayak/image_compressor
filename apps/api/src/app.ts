@@ -13,12 +13,17 @@ import userRoutes from './modules/user/user.routes';
 import apiKeyRoutes from './modules/apiKeys/apiKeys.routes';
 import billingRoutes from './modules/billing/billing.routes';
 import toolUsageRoutes from './modules/toolUsage/toolUsage.routes';
+import pdfCompressRoutes from './modules/pdfCompress/pdfCompress.routes';
 
 const app: express.Application = express();
 
 // Security
 app.use(helmet());
-app.use(cors({ origin: env.FRONTEND_URL, credentials: true }));
+app.use(cors({
+  origin: env.FRONTEND_URL,
+  credentials: true,
+  exposedHeaders: ['X-Original-Size', 'X-Compressed-Size', 'X-Savings-Percent', 'X-Page-Count'],
+}));
 
 // Logging
 if (env.NODE_ENV !== 'test') {
@@ -44,7 +49,8 @@ app.use('/api/v1/compress', compressionRoutes);
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/api-keys', apiKeyRoutes);
 app.use('/api/v1/billing', billingRoutes);
-app.use('/api/v1/tools',   toolUsageRoutes);
+app.use('/api/v1/tools',        toolUsageRoutes);
+app.use('/api/v1/pdf-compress', pdfCompressRoutes);
 
 // 404
 app.use((_req, res) => res.status(404).json({ success: false, error: 'Route not found' }));
