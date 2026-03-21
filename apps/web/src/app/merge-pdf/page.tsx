@@ -26,6 +26,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { cn, formatBytes } from '@/lib/utils';
+import { CloudFilePicker } from '@/components/CloudFilePicker';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -316,7 +317,14 @@ export default function MergePdfPage() {
               Select PDF Files
             </button>
 
-            <p className="text-xs text-slate-400 mt-6">PDF files only · Max 100 MB each</p>
+            <div className="flex items-center gap-3 mt-4">
+              <span className="h-px flex-1 bg-slate-200" />
+              <span className="text-xs text-slate-400 font-medium">or import from</span>
+              <span className="h-px flex-1 bg-slate-200" />
+            </div>
+            <CloudFilePicker onFiles={addFiles} accept="pdf" multiple />
+
+            <p className="text-xs text-slate-400 mt-2">PDF files only · Max 100 MB each</p>
           </div>
         )}
 
@@ -378,6 +386,10 @@ export default function MergePdfPage() {
                     {isAddDragActive ? 'Drop to add' : 'Add more PDF files'}
                   </span>
                 </div>
+              </div>
+
+              <div className="flex justify-center mt-1">
+                <CloudFilePicker onFiles={addFiles} accept="pdf" multiple />
               </div>
 
               {/* Hint */}

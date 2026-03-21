@@ -8,6 +8,7 @@ import {
   FileText, Scissors, Loader2, Plus, X, Check, Layers, AlignLeft,
 } from 'lucide-react';
 import { cn, formatBytes } from '@/lib/utils';
+import { CloudFilePicker } from '@/components/CloudFilePicker';
 
 // ── Minimal pdfjs type (avoids importing the package into webpack) ─────────────
 
@@ -370,7 +371,18 @@ export default function SplitPdfPage() {
               Select PDF File
             </button>
 
-            <p className="text-xs text-slate-400 mt-6">
+            <div className="flex items-center gap-3 mt-4">
+              <span className="h-px flex-1 bg-slate-200" />
+              <span className="text-xs text-slate-400 font-medium">or import from</span>
+              <span className="h-px flex-1 bg-slate-200" />
+            </div>
+            <CloudFilePicker
+              onFiles={(files) => { if (files[0]) loadFile(files[0]); }}
+              accept="pdf"
+              multiple={false}
+            />
+
+            <p className="text-xs text-slate-400 mt-2">
               PDF files only · Max 100 MB
             </p>
           </div>
