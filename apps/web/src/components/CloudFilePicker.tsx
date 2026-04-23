@@ -12,6 +12,11 @@ const GOOGLE_CLIENT_ID = process.env['NEXT_PUBLIC_GOOGLE_CLIENT_ID'] ?? '';
 
 // ── Minimal ambient types ─────────────────────────────────────────────────────
 
+interface GDocsView {
+  setMimeTypes(types: string): GDocsView;
+  setSelectFolderEnabled(v: boolean): GDocsView;
+}
+
 interface GPickerBuilder {
   setOAuthToken(token: string): GPickerBuilder;
   setDeveloperKey(key: string): GPickerBuilder;
@@ -47,10 +52,7 @@ declare global {
       };
       picker: {
         PickerBuilder: new () => GPickerBuilder;
-        DocsView: new () => {
-          setMimeTypes(types: string): unknown;
-          setSelectFolderEnabled(v: boolean): unknown;
-        };
+        DocsView: new () => GDocsView;
         Feature: { MULTISELECT_ENABLED: unknown };
         Action: { PICKED: string };
       };
