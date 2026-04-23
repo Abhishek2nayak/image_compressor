@@ -11,6 +11,16 @@ const GOOGLE_API_KEY   = process.env['NEXT_PUBLIC_GOOGLE_API_KEY']   ?? '';
 const GOOGLE_CLIENT_ID = process.env['NEXT_PUBLIC_GOOGLE_CLIENT_ID'] ?? '';
 
 // ── Minimal ambient types ─────────────────────────────────────────────────────
+
+interface GPickerBuilder {
+  setOAuthToken(token: string): GPickerBuilder;
+  setDeveloperKey(key: string): GPickerBuilder;
+  addView(view: unknown): GPickerBuilder;
+  enableFeature(feature: unknown, enabled: boolean): GPickerBuilder;
+  setCallback(cb: (data: GooglePickerData) => void): GPickerBuilder;
+  build(): { setVisible(v: boolean): void };
+}
+
 declare global {
   interface Window {
     Dropbox?: {
@@ -36,14 +46,7 @@ declare global {
         };
       };
       picker: {
-        PickerBuilder: new () => {
-          setOAuthToken(token: string): ReturnType<Window['google']['picker']['PickerBuilder']['prototype']['setOAuthToken']>;
-          setDeveloperKey(key: string): ReturnType<Window['google']['picker']['PickerBuilder']['prototype']['setDeveloperKey']>;
-          addView(view: unknown): ReturnType<Window['google']['picker']['PickerBuilder']['prototype']['addView']>;
-          enableFeature(feature: unknown, enabled: boolean): ReturnType<Window['google']['picker']['PickerBuilder']['prototype']['enableFeature']>;
-          setCallback(cb: (data: GooglePickerData) => void): ReturnType<Window['google']['picker']['PickerBuilder']['prototype']['setCallback']>;
-          build(): { setVisible(v: boolean): void };
-        };
+        PickerBuilder: new () => GPickerBuilder;
         DocsView: new () => {
           setMimeTypes(types: string): unknown;
           setSelectFolderEnabled(v: boolean): unknown;
