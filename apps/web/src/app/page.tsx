@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { HOME_FAQS } from '@/lib/faq';
-import { organizationSchema, websiteSchema } from '@/lib/schema';
+import { faqSchema, organizationSchema, websiteSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/metadata';
 import HomeClient from './HomeClient';
 
@@ -30,21 +30,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  // Safe to publish: every answer below is rendered on the page inside a
-  // <details> element, so the markup and the schema agree.
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: HOME_FAQS.map(faq => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: { '@type': 'Answer', text: faq.a },
-    })),
-  };
-
   return (
     <>
-      <JsonLd data={[organizationSchema(), websiteSchema(), faqSchema]} />
+      {/* Every answer is rendered on the page inside a <details>. */}
+      <JsonLd data={[organizationSchema(), websiteSchema(), faqSchema(HOME_FAQS)]} />
       <HomeClient />
       <SiteFooter />
     </>

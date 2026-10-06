@@ -1,3 +1,4 @@
+import type { Faq } from './faq';
 import { BRAND, SITE_URL, absoluteUrl, type Tool } from './site';
 
 const ORG_ID = `${SITE_URL}/#organization`;
@@ -71,6 +72,23 @@ export function breadcrumbSchema(crumbs: Crumb[]) {
       position: i + 1,
       name: crumb.name,
       item: absoluteUrl(crumb.path),
+    })),
+  };
+}
+
+/**
+ * Only call this when the same answers are rendered on the page. A FAQPage
+ * node describing answers that are not in the HTML is exactly the mismatch
+ * that got removed from the home page.
+ */
+export function faqSchema(faqs: Faq[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
     })),
   };
 }
