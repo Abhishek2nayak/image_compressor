@@ -2,34 +2,32 @@
 
 import Link from 'next/link';
 import { useSession, signIn } from 'next-auth/react';
-import {
-  FileText, ChevronDown, Shield, Clock,
-  Layers, Code2, Gauge, ImageIcon,
-  ArrowRight, FilePlus2, Scissors, Minimize2, Maximize2, Images,
-} from 'lucide-react';
+import { FileText, ChevronDown, Shield, Clock, Layers, Code2, Gauge, ImageIcon, ArrowRight, Images } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/brand/Logo';
+import { FormatIcon, type FormatName } from '@/components/icons/FormatIcon';
+import { ToolIcon } from '@/components/icons/ToolIcon';
 import { HOME_FAQS } from '@/lib/faq';
 
-const FORMATS = [
-  { ext: 'JPEG', emoji: '🖼️', color: 'bg-orange-50 border-orange-100', desc: 'Lossy format for photos and anything with soft gradients. You choose how far to push the quality.' },
-  { ext: 'PNG',  emoji: '🎨', color: 'bg-sky-50 border-sky-100',      desc: 'Lossless and keeps transparency. The right pick for logos, icons and UI graphics.' },
-  { ext: 'WebP', emoji: '⚡', color: 'bg-green-50 border-green-100',  desc: 'Modern format that is usually smaller than JPEG at a comparable quality. Every current browser supports it.' },
-  { ext: 'AVIF', emoji: '🚀', color: 'bg-violet-50 border-violet-100', desc: 'Newer still, and often smaller than WebP. Encoding takes longer, so expect a slightly slower compress.' },
+const FORMATS: { ext: FormatName; color: string; desc: string }[] = [
+  { ext: 'JPEG', color: 'bg-orange-50 border-orange-100', desc: 'Lossy format for photos and anything with soft gradients. You choose how far to push the quality.' },
+  { ext: 'PNG',  color: 'bg-blue-50 border-blue-100',     desc: 'Lossless and keeps transparency. The right pick for logos, icons and UI graphics.' },
+  { ext: 'WebP', color: 'bg-green-50 border-green-100',   desc: 'Modern format that is usually smaller than JPEG at a comparable quality. Every current browser supports it.' },
+  { ext: 'AVIF', color: 'bg-purple-50 border-purple-100', desc: 'Newer still, and often smaller than WebP. Encoding takes longer, so expect a slightly slower compress.' },
 ];
 
 const FEATURES = [
   { icon: Gauge,     title: 'Quality you control', desc: 'A 1–100 quality slider with a live estimate of the output size, so you can stop exactly where you need to.' },
   { icon: Layers,    title: 'Up to 20 at once',    desc: 'Compress up to 20 images in a single batch and download each result as it finishes.' },
   { icon: Code2,     title: 'Developer API',       desc: 'A REST API with key authentication for the image compressor, available on the Pro plan.' },
-  { icon: Shield,    title: 'Clear about uploads', desc: 'Merge, split and JPG to PDF never upload anything. Image and PDF compression run on our server — see the FAQ for exactly how long files are kept.' },
+  { icon: Shield,    title: 'Clear about uploads', desc: 'Five of the seven tools never upload anything — they run in your browser. Only image and PDF compression go to our server; see the FAQ for exactly how long files are kept.' },
   { icon: Clock,     title: 'No watermarks',       desc: 'Nothing is stamped onto your files, and you are never asked for an email before a download.' },
   { icon: ImageIcon, title: 'Four image formats',  desc: 'JPEG, PNG, WebP and AVIF, both for compression and for converting into a PDF.' },
 ];
 
 const STEPS = [
   { n: '01', title: 'Pick a tool',         desc: 'Compress an image, convert JPG to PDF, or merge, split and compress PDF files. No account needed for any of them.' },
-  { n: '02', title: 'Add your files',      desc: 'Drag and drop, or browse. Merge, split and JPG to PDF open the file in your browser; the two compressors upload it to our server.' },
+  { n: '02', title: 'Add your files',      desc: 'Drag and drop, or browse. Most tools open the file right in your browser; only the two compressors upload it to our server.' },
   { n: '03', title: 'Download the result', desc: 'No watermark and no sign-up wall. The file is ready as soon as processing finishes.' },
 ];
 
@@ -84,7 +82,7 @@ export default function HomePage() {
                 <FileText className="w-3 h-3" aria-hidden="true" /> Free to use · No account needed
               </div>
               <h1 className="text-5xl sm:text-[3.75rem] font-black tracking-tight leading-[1.06] mb-5">
-                <span className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-red-500 to-pink-400 bg-clip-text text-transparent">
                   Free PDF &amp; image tools.
                 </span>
                 <br />
@@ -92,7 +90,7 @@ export default function HomePage() {
               </h1>
               <p className="text-lg text-slate-500 max-w-xl mx-auto mb-8 leading-relaxed">
                 Compress images, convert JPG to PDF, and merge, split or compress
-                PDF files. Five tools, free to use, no account required and no
+                PDF files. Seven tools, free to use, no account required and no
                 watermarks on anything you download.
               </p>
               <Link
@@ -102,7 +100,7 @@ export default function HomePage() {
                 Start Compressing Images <ArrowRight className="w-4 h-4" />
               </Link>
               <div className="flex flex-wrap justify-center gap-2 mt-6">
-                {['✓ No account needed', '✓ No watermarks', '✓ Merge, split & JPG to PDF never upload'].map(f => (
+                {['✓ No account needed', '✓ No watermarks', '✓ 5 of 7 tools never upload'].map(f => (
                   <span key={f} className="text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-full px-3.5 py-1.5 shadow-sm">
                     {f}
                   </span>
@@ -125,7 +123,7 @@ export default function HomePage() {
                   className="group bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
                 >
                   <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-red-100 transition-colors">
-                    <ImageIcon className="w-6 h-6 text-red-500" />
+                    <ToolIcon name="compress-image" size={28} />
                   </div>
                   <h3 className="font-bold text-slate-800 mb-1.5 text-lg">Image Compressor</h3>
                   <p className="text-sm text-slate-500 leading-relaxed flex-1">
@@ -142,7 +140,7 @@ export default function HomePage() {
                   className="group bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
                 >
                   <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-orange-100 transition-colors">
-                    <FileText className="w-6 h-6 text-orange-500" />
+                    <ToolIcon name="jpg-to-pdf" size={28} />
                   </div>
                   <h3 className="font-bold text-slate-800 mb-1.5 text-lg">JPG to PDF</h3>
                   <p className="text-sm text-slate-500 leading-relaxed flex-1">
@@ -159,7 +157,7 @@ export default function HomePage() {
                   className="group bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
                 >
                   <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors">
-                    <FilePlus2 className="w-6 h-6 text-blue-600" />
+                    <ToolIcon name="merge-pdf" size={28} />
                   </div>
                   <h3 className="font-bold text-slate-800 mb-1.5 text-lg">Merge PDF</h3>
                   <p className="text-sm text-slate-500 leading-relaxed flex-1">
@@ -176,7 +174,7 @@ export default function HomePage() {
                   className="group bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
                 >
                   <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-green-100 transition-colors">
-                    <Scissors className="w-6 h-6 text-green-600" />
+                    <ToolIcon name="split-pdf" size={28} />
                   </div>
                   <h3 className="font-bold text-slate-800 mb-1.5 text-lg">Split PDF</h3>
                   <p className="text-sm text-slate-500 leading-relaxed flex-1">
@@ -193,7 +191,7 @@ export default function HomePage() {
                   className="group bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
                 >
                   <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-purple-100 transition-colors">
-                    <Minimize2 className="w-6 h-6 text-purple-600" />
+                    <ToolIcon name="compress-pdf" size={28} />
                   </div>
                   <h3 className="font-bold text-slate-800 mb-1.5 text-lg">Compress PDF</h3>
                   <p className="text-sm text-slate-500 leading-relaxed flex-1">
@@ -209,14 +207,14 @@ export default function HomePage() {
                   href="/resize-image"
                   className="group bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
                 >
-                  <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-100 transition-colors">
-                    <Maximize2 className="w-6 h-6 text-amber-600" aria-hidden="true" />
+                  <div className="w-12 h-12 bg-pink-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-pink-100 transition-colors">
+                    <ToolIcon name="resize-image" size={28} />
                   </div>
                   <h3 className="font-bold text-slate-800 mb-1.5 text-lg">Resize Image</h3>
                   <p className="text-sm text-slate-500 leading-relaxed flex-1">
                     Set exact pixel dimensions, scale by percentage, or shrink an image to a target size in KB. Runs in your browser.
                   </p>
-                  <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-amber-600 group-hover:gap-2.5 transition-all">
+                  <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-pink-500 group-hover:gap-2.5 transition-all">
                     Resize an image <ArrowRight className="w-4 h-4" aria-hidden="true" />
                   </div>
                 </Link>
@@ -227,7 +225,7 @@ export default function HomePage() {
                   className="group bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
                 >
                   <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-100 transition-colors">
-                    <Images className="w-6 h-6 text-teal-600" aria-hidden="true" />
+                    <ToolIcon name="pdf-to-jpg" size={28} />
                   </div>
                   <h3 className="font-bold text-slate-800 mb-1.5 text-lg">PDF to JPG</h3>
                   <p className="text-sm text-slate-500 leading-relaxed flex-1">
@@ -269,7 +267,7 @@ export default function HomePage() {
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {FORMATS.map(f => (
                   <div key={f.ext} className={cn('rounded-2xl border p-6 hover:shadow-md transition-shadow', f.color)}>
-                    <div className="text-3xl mb-3">{f.emoji}</div>
+                    <FormatIcon format={f.ext} size={44} className="mb-3" />
                     <div className="font-black text-slate-800 text-xl mb-1.5">{f.ext}</div>
                     <p className="text-sm text-slate-500 leading-relaxed">{f.desc}</p>
                   </div>
@@ -326,7 +324,7 @@ export default function HomePage() {
           </section>
 
           {/* ── CTA ── */}
-          <section className="py-20 bg-gradient-to-br from-red-500 via-red-600 to-orange-600">
+          <section className="py-20 bg-gradient-to-br from-red-500 to-pink-400">
             <div className="max-w-2xl mx-auto px-4 text-center">
               <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Pick a tool and get started</h2>
               <p className="text-red-100 text-lg mb-8 leading-relaxed">

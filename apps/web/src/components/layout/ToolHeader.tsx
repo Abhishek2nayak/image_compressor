@@ -9,7 +9,7 @@ interface ToolHeaderProps {
 
 /**
  * Minimal header for tool pages. Server component, so the cross-tool links are
- * in the HTML — this is the internal link graph between the five tools.
+ * in the HTML — this is the internal link graph between the tools.
  */
 export function ToolHeader({ activeSlug }: ToolHeaderProps) {
   return (

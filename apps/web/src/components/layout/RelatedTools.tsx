@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { ToolIcon, type ToolIconName } from '@/components/icons/ToolIcon';
 import { TOOLS } from '@/lib/site';
 
 interface RelatedToolsProps {
@@ -28,7 +29,8 @@ export function RelatedTools({ activeSlug }: RelatedToolsProps) {
               href={tool.slug}
               className="group bg-[#f8fafc] rounded-2xl border border-slate-200 p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
             >
-              <h3 className="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5">
+              <h3 className="font-bold text-slate-800 mb-1.5 flex items-center gap-2">
+                <ToolIcon name={tool.slug.slice(1) as ToolIconName} size={22} />
                 {tool.name}
                 <ArrowRight
                   className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform"

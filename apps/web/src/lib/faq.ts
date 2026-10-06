@@ -10,11 +10,11 @@ export interface Faq {
 export const HOME_FAQS: Faq[] = [
   {
     q: 'Do I need an account to use these tools?',
-    a: 'No. All five tools work without signing in. Merge PDF, Split PDF and JPG to PDF run in your browser and are not metered at all. Compress Image and Compress PDF run on our server, where guests get 3 operations a day; a free account raises that to 20 a day.',
+    a: 'No. All seven tools work without signing in. Merge PDF, Split PDF, JPG to PDF, PDF to JPG and Resize Image run in your browser and are not metered at all. Compress Image and Compress PDF run on our server, where guests get 3 operations a day; a free account raises that to 20 a day.',
   },
   {
     q: 'Which tools upload my files and which do not?',
-    a: 'Merge PDF, Split PDF and JPG to PDF do all the work in your browser using JavaScript — the file never leaves your device, which is also why they keep working if your connection drops. Compress Image and Compress PDF send the file to our server, because they use image and PDF libraries that do not run in a browser.',
+    a: 'Five of the seven do all the work in your browser using JavaScript — Merge PDF, Split PDF, JPG to PDF, PDF to JPG and Resize Image. The file never leaves your device, which is also why they keep working if your connection drops. Only Compress Image and Compress PDF send the file to our server, because they use image and PDF libraries that do not run in a browser.',
   },
   {
     q: 'How long do you keep the files I upload?',

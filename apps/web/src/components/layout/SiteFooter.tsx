@@ -62,8 +62,8 @@ export function SiteFooter() {
           {/* Deliberately specific: a blanket "nothing is uploaded" claim would
               be false for the two server-side tools. */}
           <span>
-            Merge, split and JPG&nbsp;to&nbsp;PDF run in your browser · image and PDF
-            compression are processed on our servers
+            Five of our seven tools run entirely in your browser · only image and
+            PDF compression are processed on our servers
           </span>
         </div>
       </div>
