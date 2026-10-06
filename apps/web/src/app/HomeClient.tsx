@@ -5,7 +5,7 @@ import { useSession, signIn } from 'next-auth/react';
 import {
   FileText, ChevronDown, Shield, Clock,
   Layers, Code2, Gauge, ImageIcon,
-  ArrowRight, FilePlus2, Scissors, Minimize2,
+  ArrowRight, FilePlus2, Scissors, Minimize2, Maximize2, Images,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { BRAND } from '@/lib/site';
@@ -204,6 +204,40 @@ export default function HomePage() {
                   </p>
                   <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-purple-600 group-hover:gap-2.5 transition-all">
                     Compress PDF <ArrowRight className="w-4 h-4" />
+                  </div>
+                </Link>
+
+                {/* Resize Image tool card */}
+                <Link
+                  href="/resize-image"
+                  className="group bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
+                >
+                  <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-100 transition-colors">
+                    <Maximize2 className="w-6 h-6 text-amber-600" aria-hidden="true" />
+                  </div>
+                  <h3 className="font-bold text-slate-800 mb-1.5 text-lg">Resize Image</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed flex-1">
+                    Set exact pixel dimensions, scale by percentage, or shrink an image to a target size in KB. Runs in your browser.
+                  </p>
+                  <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-amber-600 group-hover:gap-2.5 transition-all">
+                    Resize an image <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                  </div>
+                </Link>
+
+                {/* PDF to JPG tool card */}
+                <Link
+                  href="/pdf-to-jpg"
+                  className="group bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
+                >
+                  <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-100 transition-colors">
+                    <Images className="w-6 h-6 text-teal-600" aria-hidden="true" />
+                  </div>
+                  <h3 className="font-bold text-slate-800 mb-1.5 text-lg">PDF to JPG</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed flex-1">
+                    Turn PDF pages into JPG or PNG images at the resolution you choose. Nothing leaves your browser.
+                  </p>
+                  <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-teal-600 group-hover:gap-2.5 transition-all">
+                    Convert to images <ArrowRight className="w-4 h-4" aria-hidden="true" />
                   </div>
                 </Link>
               </div>

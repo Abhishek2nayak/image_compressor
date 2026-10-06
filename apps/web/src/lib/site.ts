@@ -86,6 +86,26 @@ export const TOOLS: Tool[] = [
     card: 'Shrink a PDF by rebuilding its internal structure. Three levels, from safest to smallest.',
     processing: 'server',
   },
+  {
+    slug: '/resize-image',
+    name: 'Resize Image',
+    title: 'Resize Image Online — To Pixels or to KB',
+    description:
+      'Resize an image by pixels or percentage, or shrink it to a target size in KB. Runs in your browser, so there is no upload and no daily limit.',
+    h1: 'Resize an image',
+    card: 'Set exact pixel dimensions, scale by percentage, or hit a target file size in KB. Nothing is uploaded.',
+    processing: 'browser',
+  },
+  {
+    slug: '/pdf-to-jpg',
+    name: 'PDF to JPG',
+    title: 'PDF to JPG — Convert PDF Pages to Images',
+    description:
+      'Convert each page of a PDF into a JPG or PNG image. Choose the resolution and download the pages you want. Runs entirely in your browser.',
+    h1: 'Convert PDF to JPG',
+    card: 'Turn PDF pages into JPG or PNG images at the resolution you choose. Nothing leaves your browser.',
+    processing: 'browser',
+  },
 ];
 
 export function toolBySlug(slug: string): Tool | undefined {

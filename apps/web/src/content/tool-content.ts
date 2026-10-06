@@ -226,4 +226,91 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
       },
     ],
   },
+
+  '/resize-image': {
+    heading: 'About this image resizer',
+    intro: [
+      'Resizing and compressing are two different jobs, and forms usually need both. Compressing re-encodes an image at lower quality; resizing changes how many pixels it has. If a portal asks for a 200 × 230 photograph, or caps the upload at 50 KB, this is the tool for it.',
+      'Everything runs in your browser on a canvas element. Nothing is uploaded, there is no daily limit, and the original file on your device is never modified.',
+      'There are three ways to work. Pixels lets you type an exact width and height, with an aspect-ratio lock so the picture does not come out stretched. Percent scales the whole image by a factor, which is the quickest way to halve a photo. Target KB is the one most people want: give it a size and it lowers the quality until the file fits, then reduces the dimensions as well if quality alone cannot get there.',
+      'You can also change format on the way out. JPG reaches small targets most reliably because it is lossy. PNG is lossless and keeps transparency, so it will not hit very small sizes but it keeps sharp edges clean. WebP usually lands somewhere between the two.',
+    ],
+    steps: [
+      {
+        title: 'Add an image',
+        body: 'Drop in a JPG, PNG, WebP or AVIF file. Its current dimensions and size are shown straight away.',
+      },
+      {
+        title: 'Choose how to resize',
+        body: 'Type exact pixels, drag the percentage slider, or enter a target size in KB and let the tool work backwards to it.',
+      },
+      {
+        title: 'Check and download',
+        body: 'The result appears beside the original with its new dimensions and file size, so you can adjust and try again before downloading.',
+      },
+    ],
+    limits: [
+      'No daily limit — this tool runs entirely in your browser.',
+      'Up to 25 MB per image, one at a time.',
+      'Nothing is uploaded, so nothing is stored.',
+    ],
+    faqs: [
+      {
+        q: 'How do I resize a photo to 20 KB for an application form?',
+        a: 'Switch to Target KB, type 20, and pick JPG as the output. If the result comes back larger than asked, the image likely has a lot of detail — crop it to just the required area first, which removes pixels the resizer would otherwise have to keep.',
+      },
+      {
+        q: 'How do I resize to an exact size like 200 x 230 pixels?',
+        a: 'Use Pixels mode and turn the aspect-ratio lock off, then enter both numbers. With the lock off the image is stretched to fit exactly, so crop to roughly the right proportions first if that matters.',
+      },
+      {
+        q: 'Will resizing make the image blurry?',
+        a: 'Making an image smaller is generally safe. Making it larger cannot invent detail that is not there, so anything scaled well above 100% will look soft. Resize down from the largest original you have rather than up from a small copy.',
+      },
+    ],
+  },
+
+  '/pdf-to-jpg': {
+    heading: 'About this PDF to JPG converter',
+    intro: [
+      'Sometimes an image is what is wanted, not a document — a page to attach in a chat, paste into a slide, or upload to a form that only takes JPG. This tool draws each page of a PDF onto a canvas and saves it as an image.',
+      'The rendering is done by PDF.js inside your browser, the same engine Firefox uses to display PDFs. Your file is never uploaded, there is no daily limit, and conversion keeps working if the connection drops.',
+      'Resolution is the setting that matters most. Screen is the lightest and fine for viewing on a phone or monitor. Good is a sensible default for most uses. Print renders at roughly 220 DPI, which stays sharp when printed or zoomed, at the cost of much larger files. Pick the format to match the content: JPG for scans and photographs, PNG for pages of text or line drawings, where it keeps edges crisp instead of blurring them.',
+      'Every page is shown as a thumbnail once it has rendered. Pages start selected, so you can deselect the ones you do not want and download only the rest, or grab a single page on its own.',
+    ],
+    steps: [
+      {
+        title: 'Add a PDF',
+        body: 'Drop in one file, up to 100 MB. Pages render one by one, with progress shown as it goes.',
+      },
+      {
+        title: 'Set resolution and format',
+        body: 'Choose Screen, Good or Print, and JPG or PNG. Changing either re-renders the pages at the new setting.',
+      },
+      {
+        title: 'Pick pages and download',
+        body: 'Deselect anything you do not need, then download the selection together, or save a single page from its own button.',
+      },
+    ],
+    limits: [
+      'No daily limit — this tool runs entirely in your browser.',
+      'One PDF at a time, up to 100 MB.',
+      'Long documents at Print resolution take a while and use a lot of memory, since every page is drawn on your own device.',
+      'Nothing is uploaded, so nothing is stored.',
+    ],
+    faqs: [
+      {
+        q: 'How do I convert just one page of a PDF to JPG?',
+        a: 'Let the pages render, then use the download button underneath that page\'s thumbnail. You can also clear the selection and tick only the page you want before downloading.',
+      },
+      {
+        q: 'Which resolution should I choose?',
+        a: 'Good is right for most things. Use Screen if the image is only going to be viewed on a phone or shared in a chat, and Print if it will be printed or zoomed into, where the extra pixels are worth the file size.',
+      },
+      {
+        q: 'Why does the download ask permission for multiple files?',
+        a: 'Saving several images means several downloads, and browsers ask before allowing a batch. Allow it once and the rest save normally, or download pages one at a time instead.',
+      },
+    ],
+  },
 };
