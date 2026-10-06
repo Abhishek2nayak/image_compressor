@@ -286,7 +286,7 @@ export default function CompressImagePage() {
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={fileItem.previewUrl}
-                        alt={fileItem.file.name}
+                        alt={`Preview of ${fileItem.file.name}`}
                         className="absolute inset-0 w-full h-full object-cover"
                       />
 

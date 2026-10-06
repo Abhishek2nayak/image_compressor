@@ -1,5 +1,11 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BRAND } from '@/lib/site';
+
+export const metadata: Metadata = {
+  // Gated/private area: never index, never follow into it.
+  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
+};
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (

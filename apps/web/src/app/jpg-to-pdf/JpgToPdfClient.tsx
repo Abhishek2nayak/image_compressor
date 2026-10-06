@@ -141,7 +141,7 @@ function SortableImageCard({ item, index, onRemove, onRotate }: CardProps) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={item.previewUrl}
-          alt={item.file.name}
+          alt={`Preview of ${item.file.name}, page ${index + 1} of the PDF`}
           className="absolute inset-0 w-full h-full object-contain"
           style={{
             transform: `rotate(${item.rotation}deg)`,

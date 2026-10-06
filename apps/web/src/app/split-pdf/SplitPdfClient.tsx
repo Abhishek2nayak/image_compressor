@@ -468,7 +468,7 @@ export default function SplitPdfPage() {
                       {thumb.dataUrl ? (
                         <img
                           src={thumb.dataUrl}
-                          alt={`Page ${thumb.pageNum}`}
+                          alt={`Page ${thumb.pageNum} of the uploaded PDF`}
                           className="w-full h-full object-contain bg-white"
                         />
                       ) : (

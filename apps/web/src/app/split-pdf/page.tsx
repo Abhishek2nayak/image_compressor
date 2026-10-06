@@ -1,16 +1,32 @@
 import type { Metadata } from 'next';
 import { ToolHeader } from '@/components/layout/ToolHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
+import { RelatedTools } from '@/components/layout/RelatedTools';
+import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { toolMetadata } from '@/lib/metadata';
+import { breadcrumbSchema, toolSchema } from '@/lib/schema';
+import { toolBySlug } from '@/lib/site';
 import SplitPdfClient from './SplitPdfClient';
 
-export const metadata: Metadata = toolMetadata('/split-pdf');
+const SLUG = '/split-pdf';
+const tool = toolBySlug(SLUG)!;
+
+export const metadata: Metadata = toolMetadata(SLUG);
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: tool.name, path: SLUG },
+];
 
 export default function Page() {
   return (
     <>
-      <ToolHeader activeSlug="/split-pdf" />
+      <JsonLd data={[toolSchema(tool), breadcrumbSchema(crumbs)]} />
+      <ToolHeader activeSlug={SLUG} />
+      <Breadcrumbs crumbs={crumbs} />
       <SplitPdfClient />
+      <RelatedTools activeSlug={SLUG} />
       <SiteFooter />
     </>
   );

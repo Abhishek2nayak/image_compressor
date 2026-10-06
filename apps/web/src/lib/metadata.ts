@@ -17,6 +17,17 @@ interface PageMetaInput {
 export function pageMetadata({ title, description, path, noindex }: PageMetaInput): Metadata {
   const url = absoluteUrl(path);
 
+  // The generated app/opengraph-image.tsx is only applied automatically to the
+  // segment it sits in; a page that declares its own `openGraph` replaces the
+  // inherited image. Point at it explicitly so every page gets one, resolved
+  // against metadataBase and therefore on the canonical domain.
+  const ogImage = {
+    url: '/opengraph-image',
+    width: 1200,
+    height: 630,
+    alt: `${BRAND} — free online PDF and image tools`,
+  };
+
   return {
     title,
     description,
@@ -28,11 +39,13 @@ export function pageMetadata({ title, description, path, noindex }: PageMetaInpu
       url,
       title,
       description,
+      images: [ogImage],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [ogImage],
     },
     ...(noindex
       ? { robots: { index: false, follow: false, googleBot: { index: false, follow: false } } }

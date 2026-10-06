@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { HOME_FAQS } from '@/lib/faq';
+import { organizationSchema, websiteSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/metadata';
 import HomeClient from './HomeClient';
 
@@ -43,7 +44,7 @@ export default function Page() {
 
   return (
     <>
-      <JsonLd data={faqSchema} />
+      <JsonLd data={[organizationSchema(), websiteSchema(), faqSchema]} />
       <HomeClient />
       <SiteFooter />
     </>
