@@ -39,7 +39,7 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
     ],
     limits: [
       'Up to 20 images per batch.',
-      'As a guest: 3 operations a day and 10 MB per file. Signed in: 20 a day and 25 MB. Pro: unlimited, up to 100 MB.',
+      'As a guest: 3 operations a day and 10 MB per file. Sign in free to raise that to 20 a day and 25 MB.',
       'This tool uploads your image to our server, because the encoder does not run in a browser. Originals and compressed copies are deleted automatically after 24 hours.',
     ],
     faqs: [
@@ -208,7 +208,7 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
     ],
     limits: [
       'One file at a time, up to 100 MB.',
-      'As a guest: 3 operations a day, 10 MB per file and 15 pages. Signed in: 20 a day, 25 MB and 50 pages. Pro: unlimited, up to 100 MB with no page limit.',
+      'As a guest: 3 operations a day, 10 MB per file and 15 pages. Sign in free to raise that to 20 a day, 25 MB and 50 pages.',
       'Your file is uploaded for processing and deleted from the server as soon as the download is sent. It is never stored.',
     ],
     faqs: [

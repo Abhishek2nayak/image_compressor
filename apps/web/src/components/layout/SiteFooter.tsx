@@ -36,11 +36,6 @@ export function SiteFooter() {
             <h2 className="text-white font-bold text-sm mb-3">Account</h2>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/pricing" className="hover:text-white transition-colors">
-                  Pricing
-                </Link>
-              </li>
-              <li>
                 <Link href="/login" className="hover:text-white transition-colors">
                   Sign in
                 </Link>

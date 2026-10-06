@@ -19,7 +19,7 @@ const FORMATS: { ext: FormatName; color: string; desc: string }[] = [
 const FEATURES = [
   { icon: Gauge,     title: 'Quality you control', desc: 'A 1–100 quality slider with a live estimate of the output size, so you can stop exactly where you need to.' },
   { icon: Layers,    title: 'Up to 20 at once',    desc: 'Compress up to 20 images in a single batch and download each result as it finishes.' },
-  { icon: Code2,     title: 'Developer API',       desc: 'A REST API with key authentication for the image compressor, available on the Pro plan.' },
+  { icon: Code2,     title: 'Developer API',       desc: 'A REST API with key authentication for the image compressor. Generate a key from your dashboard once you are signed in.' },
   { icon: Shield,    title: 'Clear about uploads', desc: 'Five of the seven tools never upload anything — they run in your browser. Only image and PDF compression go to our server; see the FAQ for exactly how long files are kept.' },
   { icon: Clock,     title: 'No watermarks',       desc: 'Nothing is stamped onto your files, and you are never asked for an email before a download.' },
   { icon: ImageIcon, title: 'Four image formats',  desc: 'JPEG, PNG, WebP and AVIF, both for compression and for converting into a PDF.' },
@@ -49,7 +49,6 @@ export default function HomePage() {
             <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-500">
               <Link href="#tools"        className="hover:text-slate-900 transition-colors">Tools</Link>
               <Link href="#how-it-works" className="hover:text-slate-900 transition-colors">How it works</Link>
-              <Link href="/pricing"      className="hover:text-slate-900 transition-colors">Pricing</Link>
             </nav>
             <div className="flex items-center gap-2.5 text-sm shrink-0">
               {session ? (
@@ -328,7 +327,7 @@ export default function HomePage() {
             <div className="max-w-2xl mx-auto px-4 text-center">
               <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Pick a tool and get started</h2>
               <p className="text-red-100 text-lg mb-8 leading-relaxed">
-                Every tool is free and needs no account. Sign in only if you want a higher daily limit on the compressors, or API access.
+                Every tool is free and needs no account. Sign in only if you want a higher daily limit on the two compressors, or an API key.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link href="/compress-image" className="bg-white text-red-600 rounded-xl px-8 py-3.5 font-black text-sm hover:bg-red-50 transition-colors shadow-lg shadow-red-900/30">

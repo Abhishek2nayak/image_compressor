@@ -40,7 +40,6 @@ export function Sidebar() {
       </nav>
 
       <div className="border-t pt-4 mt-4 space-y-1">
-        {/* <Link href="/pricing" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">Upgrade to Pro</Link> */}
         <button
           onClick={() => signOut({ callbackUrl: '/' })}
           className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors w-full"

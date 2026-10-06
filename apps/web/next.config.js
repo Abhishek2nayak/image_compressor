@@ -42,6 +42,9 @@ const nextConfig = {
       // /docs was never written. Permanent so Google drops it from the index
       // rather than re-crawling a temporary redirect forever.
       { source: '/docs', destination: '/', permanent: true },
+      // /pricing was indexed before the page was withdrawn. Redirect rather
+      // than 404 so the existing crawl signal is not simply thrown away.
+      { source: '/pricing', destination: '/', permanent: true },
     ];
   },
 };
