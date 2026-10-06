@@ -8,7 +8,7 @@ import {
   ArrowRight, FilePlus2, Scissors, Minimize2, Maximize2, Images,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { BRAND } from '@/lib/site';
+import { Logo } from '@/components/brand/Logo';
 import { HOME_FAQS } from '@/lib/faq';
 
 const FORMATS = [
@@ -45,11 +45,8 @@ export default function HomePage() {
         {/* ── Navbar ── */}
         <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100 shadow-sm">
           <div className="max-w-6xl mx-auto px-4 flex items-center justify-between" style={{ height: '3.75rem' }}>
-            <Link href="/" className="flex items-center gap-2.5 shrink-0">
-              <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center shadow-sm">
-                <FileText className="w-4 h-4 text-white" />
-              </div>
-              <span className="font-bold text-lg tracking-tight text-slate-900">{BRAND}</span>
+            <Link href="/" className="shrink-0" aria-label="My PDF Hub home">
+              <Logo size={34} />
             </Link>
             <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-500">
               <Link href="#tools"        className="hover:text-slate-900 transition-colors">Tools</Link>

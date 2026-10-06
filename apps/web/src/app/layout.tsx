@@ -1,9 +1,10 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import { Toaster } from 'sonner';
 import { BRAND, SITE_URL } from '@/lib/site';
+import { BRAND_COLORS } from '@/lib/brand';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -46,6 +47,10 @@ export const metadata: Metadata = {
   // root layout is inherited by every page that does not override it, which is
   // exactly the bug this replaces. Each page declares its own self-referencing
   // canonical instead.
+};
+
+export const viewport: Viewport = {
+  themeColor: BRAND_COLORS.primary,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

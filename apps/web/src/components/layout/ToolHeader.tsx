@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { FileText } from 'lucide-react';
-import { BRAND, TOOLS } from '@/lib/site';
+import { Logo } from '@/components/brand/Logo';
+import { TOOLS } from '@/lib/site';
 
 interface ToolHeaderProps {
   /** Slug of the current tool, so it is not linked to itself. */
@@ -15,11 +15,8 @@ export function ToolHeader({ activeSlug }: ToolHeaderProps) {
   return (
     <header className="bg-white border-b border-slate-100 shadow-sm">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="w-7 h-7 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center shadow-sm">
-            <FileText className="w-4 h-4 text-white" aria-hidden="true" />
-          </div>
-          <span className="font-bold text-slate-900">{BRAND}</span>
+        <Link href="/" className="shrink-0" aria-label="My PDF Hub home">
+          <Logo size={30} />
         </Link>
 
         <nav aria-label="Tools" className="hidden md:flex items-center gap-5 text-sm">
