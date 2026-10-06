@@ -1,14 +1,26 @@
 import { MetadataRoute } from 'next';
+import { absoluteUrl } from '@/lib/site';
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: '*',
-        allow: ['/', '/pricing', '/docs', '/register', '/login'],
-        disallow: ['/dashboard/', '/api-keys/', '/api/'],
+        allow: '/',
+        // Private or gated areas. These also carry a noindex meta tag; the
+        // disallow here just saves crawl budget.
+        disallow: [
+          '/api/',
+          '/dashboard',
+          '/api-keys',
+          '/compress',
+          '/login',
+          '/register',
+          '/auth/',
+        ],
       },
     ],
-    sitemap: 'https://imagepress.app/sitemap.xml',
+    sitemap: absoluteUrl('/sitemap.xml'),
+    host: absoluteUrl('/'),
   };
 }

@@ -3,49 +3,31 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import { Toaster } from 'sonner';
+import { BRAND, SITE_URL } from '@/lib/site';
 
-const inter = Inter({ subsets: ['latin'] });
-
-const BASE_URL = 'https://easypdfstudio.app';
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Easy PDF Studio — Free Online Image & PDF Tools",
-    template: "%s | Easy PDF Studio",
+    default: `${BRAND} — Free Online PDF & Image Tools`,
+    template: `%s | ${BRAND}`,
   },
   description:
-    "Free online tools for images and PDFs. Compress JPEG, PNG, WebP and AVIF files by up to 80% without visible quality loss. No sign-up required.",
-  keywords: [
-    "image compressor",
-    "compress images online",
-    "reduce image size",
-    "jpg compressor",
-    "png compressor",
-    "webp compressor",
-    "avif compressor",
-    "free image compression",
-    "compress jpeg online",
-    "reduce png file size",
-    "image optimizer",
-    "pdf tools",
-    "easy pdf studio",
-  ],
-  authors: [{ name: "Easy PDF Studio" }],
+    'Free online PDF and image tools: compress images, convert JPG to PDF, merge PDF, split PDF and compress PDF. Most tools run in your browser.',
+  applicationName: BRAND,
+  authors: [{ name: BRAND }],
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: BASE_URL,
-    siteName: "Easy PDF Studio",
-    title: "Easy PDF Studio — Free Online Image & PDF Tools",
-    description:
-      "Free online tools for images and PDFs. Compress JPEG, PNG, WebP and AVIF files without quality loss.",
+    type: 'website',
+    locale: 'en_IN',
+    siteName: BRAND,
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Easy PDF Studio — Free Online Image & PDF Tools",
-    description:
-      "Compress images and work with PDFs online. Free, fast, no sign-up required.",
+    card: 'summary_large_image',
   },
   robots: {
     index: true,
@@ -53,14 +35,17 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
   },
-  alternates: { canonical: BASE_URL },
   verification: {
-    google: "nxkzM0PDGBbgXmWRyanSikl_1qlUeK6JbI2eTOUgGfU", // Optional: Add your Google Search Console verification code
+    google: 'nxkzM0PDGBbgXmWRyanSikl_1qlUeK6JbI2eTOUgGfU',
   },
+  // NOTE: no `alternates.canonical` here on purpose. A canonical set on the
+  // root layout is inherited by every page that does not override it, which is
+  // exactly the bug this replaces. Each page declares its own self-referencing
+  // canonical instead.
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
