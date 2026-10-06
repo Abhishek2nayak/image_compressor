@@ -9,6 +9,7 @@ import {
   ArrowRight, FilePlus2, Scissors, Minimize2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { BRAND } from '@/lib/site';
 
 const FORMATS = [
   { ext: 'JPEG', emoji: '🖼️', color: 'bg-orange-50 border-orange-100', desc: 'Best for photos and images with rich gradients. Achieves 40–70% compression at quality 75.' },
@@ -38,7 +39,7 @@ const FAQS = [
     a: 'Set the quality slider to 75–85. This range strips invisible data (EXIF metadata, redundant colour information) that the human eye cannot perceive, typically achieving 40–60% file reduction with zero visible difference.',
   },
   {
-    q: 'What image formats does Easy PDF Studio support?',
+    q: 'What image formats does the image compressor support?',
     a: 'The image compressor supports JPEG (JPG), PNG, WebP, and AVIF — the four formats that cover virtually all web, mobile, and photography use cases.',
   },
   {
@@ -65,23 +66,6 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Structured data */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([
-        {
-          '@context': 'https://schema.org', '@type': 'WebApplication',
-          name: 'Easy PDF Studio', url: 'https://easyPdfStudio.app',
-          description: 'Free online tools for images and PDFs. Compress JPEG, PNG, WebP, AVIF files without quality loss.',
-          applicationCategory: 'MultimediaApplication', operatingSystem: 'Any',
-          offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-        },
-        {
-          '@context': 'https://schema.org', '@type': 'FAQPage',
-          mainEntity: FAQS.map(f => ({
-            '@type': 'Question', name: f.q,
-            acceptedAnswer: { '@type': 'Answer', text: f.a },
-          })),
-        },
-      ]) }} />
 
       <div className="min-h-screen bg-[#f8fafc]">
 
@@ -92,7 +76,7 @@ export default function HomePage() {
               <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center shadow-sm">
                 <FileText className="w-4 h-4 text-white" />
               </div>
-              <span className="font-bold text-lg tracking-tight text-slate-900">Easy PDF Studio</span>
+              <span className="font-bold text-lg tracking-tight text-slate-900">{BRAND}</span>
             </Link>
             <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-500">
               <Link href="#tools"        className="hover:text-slate-900 transition-colors">Tools</Link>
@@ -131,14 +115,15 @@ export default function HomePage() {
               </div>
               <h1 className="text-5xl sm:text-[3.75rem] font-black tracking-tight leading-[1.06] mb-5">
                 <span className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
-                  Easy PDF Studio.
+                  Free PDF &amp; image tools.
                 </span>
                 <br />
-                <span className="text-slate-900">Simple. Fast. Free.</span>
+                <span className="text-slate-900">Compress. Convert. Merge. Split.</span>
               </h1>
               <p className="text-lg text-slate-500 max-w-xl mx-auto mb-8 leading-relaxed">
-                Free online tools for images and PDFs.
-                Compress, convert, and optimise — no account required, no watermarks.
+                Compress images, convert JPG to PDF, and merge, split or compress
+                PDF files. Five tools, free to use, no account required and no
+                watermarks on anything you download.
               </p>
               <Link
                 href="/compress-image"
@@ -332,7 +317,7 @@ export default function HomePage() {
             <div className="max-w-3xl mx-auto px-4">
               <div className="text-center mb-12">
                 <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-3">Frequently asked questions</h2>
-                <p className="text-slate-500 text-lg">Everything you need to know about image compression.</p>
+                <p className="text-slate-500 text-lg">How the tools work, what the limits are, and where your files go.</p>
               </div>
               <div className="space-y-2.5">
                 {FAQS.map((faq, i) => (
@@ -358,7 +343,7 @@ export default function HomePage() {
           {/* ── CTA ── */}
           <section className="py-20 bg-gradient-to-br from-red-500 via-red-600 to-orange-600">
             <div className="max-w-2xl mx-auto px-4 text-center">
-              <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Ready to optimise your images?</h2>
+              <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Pick a tool and get started</h2>
               <p className="text-red-100 text-lg mb-8 leading-relaxed">
                 Create a free account to unlock history, batch processing, and full API access.
               </p>
@@ -374,47 +359,6 @@ export default function HomePage() {
           </section>
 
         </main>
-
-        {/* ── Footer ── */}
-        <footer className="bg-slate-900 text-slate-400">
-          <div className="max-w-6xl mx-auto px-4 py-14">
-            <div className="grid sm:grid-cols-4 gap-8 mb-10">
-              <div className="sm:col-span-2">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-7 h-7 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
-                    <FileText className="w-3.5 h-3.5 text-white" />
-                  </div>
-                  <span className="font-bold text-white text-lg">Easy PDF Studio</span>
-                </div>
-                <p className="text-sm leading-relaxed max-w-xs">
-                  Free online tools for images and PDFs. Fast, simple, and private.
-                </p>
-              </div>
-              <div>
-                <h4 className="text-white font-bold text-sm mb-3">Tools</h4>
-                <ul className="space-y-2 text-sm">
-                  <li><Link href="/compress-image" className="hover:text-white transition-colors">Image Compressor</Link></li>
-                  <li><Link href="/jpg-to-pdf"      className="hover:text-white transition-colors">JPG to PDF</Link></li>
-                  <li><Link href="/merge-pdf"       className="hover:text-white transition-colors">Merge PDF</Link></li>
-                  <li><Link href="/split-pdf"       className="hover:text-white transition-colors">Split PDF</Link></li>
-                  <li><Link href="/compress-pdf"   className="hover:text-white transition-colors">Compress PDF</Link></li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-white font-bold text-sm mb-3">Account</h4>
-                <ul className="space-y-2 text-sm">
-                  <li><Link href="/login"     className="hover:text-white transition-colors">Sign in</Link></li>
-                  <li><Link href="/dashboard" className="hover:text-white transition-colors">Dashboard</Link></li>
-                  <li><Link href="/api-keys"  className="hover:text-white transition-colors">API Keys</Link></li>
-                </ul>
-              </div>
-            </div>
-            <div className="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-              <span>© {new Date().getFullYear()} Easy PDF Studio. All rights reserved.</span>
-              <span>Files deleted after 24 hours · SSL encrypted · No watermarks</span>
-            </div>
-          </div>
-        </footer>
 
       </div>
     </>

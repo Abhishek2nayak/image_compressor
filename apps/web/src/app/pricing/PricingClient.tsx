@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { Check, FileText, Loader2, ArrowRight, ChevronDown } from 'lucide-react';
 import api from '@/lib/api';
 import { cn } from '@/lib/utils';
+import { BRAND } from '@/lib/site';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -99,7 +100,7 @@ export default function PricingPage() {
         const options: Record<string, unknown> = {
           key:             keyId,
           subscription_id: subscriptionId,
-          name:            'Easy PDF Studio',
+          name:            BRAND,
           description:     `Pro Plan — ${annual ? '₹749/month (annual)' : '₹999/month'}`,
           theme:           { color: '#ef4444' },
           prefill: {
@@ -144,7 +145,7 @@ export default function PricingPage() {
             <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center shadow-sm">
               <FileText className="w-4 h-4 text-white" />
             </div>
-            <span className="font-bold text-lg tracking-tight text-slate-900">Easy PDF Studio</span>
+            <span className="font-bold text-lg tracking-tight text-slate-900">{BRAND}</span>
           </Link>
           <div className="flex items-center gap-2.5 text-sm">
             {session ? (
@@ -295,22 +296,6 @@ export default function PricingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-slate-400">
-        <div className="max-w-6xl mx-auto px-4 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-gradient-to-br from-red-500 to-orange-500 rounded-md flex items-center justify-center">
-              <FileText className="w-3 h-3 text-white" />
-            </div>
-            <span className="font-bold text-white">Easy PDF Studio</span>
-          </Link>
-          <div className="flex gap-6">
-            <Link href="/"         className="hover:text-white transition-colors">Tools</Link>
-            <Link href="/pricing"  className="hover:text-white transition-colors">Pricing</Link>
-            <Link href="/login"    className="hover:text-white transition-colors">Sign in</Link>
-          </div>
-          <span className="text-xs">© {new Date().getFullYear()} Easy PDF Studio</span>
-        </div>
-      </footer>
 
     </div>
   );

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SiteFooter } from '@/components/layout/SiteFooter';
 import { pageMetadata } from '@/lib/metadata';
 import PricingClient from './PricingClient';
 
@@ -10,5 +11,10 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function Page() {
-  return <PricingClient />;
+  return (
+    <>
+      <PricingClient />
+      <SiteFooter />
+    </>
+  );
 }

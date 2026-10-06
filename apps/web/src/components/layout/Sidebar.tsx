@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { ImageIcon, LayoutDashboard, Key, LogOut, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { BRAND } from '@/lib/site';
 
 const nav = [
   { href: '/dashboard',       label: 'Dashboard', icon: LayoutDashboard },
@@ -21,7 +22,7 @@ export function Sidebar() {
         <div className="w-7 h-7 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
           <FileText className="w-4 h-4 text-white" />
         </div>
-        <span className="font-bold text-lg">Easy PDF Studio</span>
+        <span className="font-bold text-lg">{BRAND}</span>
       </Link>
 
       <nav className="flex-1 space-y-1">
