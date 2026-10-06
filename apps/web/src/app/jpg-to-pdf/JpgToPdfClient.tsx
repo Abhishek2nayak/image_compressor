@@ -393,7 +393,7 @@ export default function JpgToPdfPage() {
             </div>
 
             <h1 className="text-3xl font-black text-slate-900 mb-2">
-              {isEmptyDragActive ? 'Drop your images' : 'JPG to PDF'}
+              {isEmptyDragActive ? 'Drop your images' : 'Convert JPG to PDF'}
             </h1>
             <p className="text-slate-400 mb-8 max-w-sm leading-relaxed">
               Convert JPEG, PNG, WebP and AVIF images into a single PDF.

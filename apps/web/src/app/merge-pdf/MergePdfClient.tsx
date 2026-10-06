@@ -287,7 +287,7 @@ export default function MergePdfPage() {
             </div>
 
             <h1 className="text-3xl font-black text-slate-900 mb-2">
-              {isEmptyDragActive ? 'Drop your PDFs' : 'Merge PDF'}
+              {isEmptyDragActive ? 'Drop your PDFs' : 'Merge PDF files'}
             </h1>
             <p className="text-slate-400 mb-8 max-w-sm leading-relaxed">
               Combine multiple PDF files into one. Drag to reorder pages, then download your merged PDF — all processed in your browser.

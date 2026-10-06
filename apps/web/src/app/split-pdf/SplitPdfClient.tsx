@@ -338,7 +338,7 @@ export default function SplitPdfPage() {
             </div>
 
             <h1 className="text-3xl font-black text-slate-900 mb-2">
-              {isEmptyDragActive ? "Drop your PDF" : "Split PDF"}
+              {isEmptyDragActive ? "Drop your PDF" : "Split a PDF or extract pages"}
             </h1>
             <p className="text-slate-400 mb-8 max-w-sm leading-relaxed">
               Extract pages or split a PDF into multiple files — all processed

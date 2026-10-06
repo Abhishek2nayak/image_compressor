@@ -28,11 +28,11 @@ const PLANS = [
     price: { monthly: '₹0', annual: '₹0' },
     description: 'Perfect for personal use and occasional tasks.',
     features: [
-      '3 operations/day (guest) · 20/day (signed in)',
-      '15 pages per operation',
-      '10 MB max file size',
-      'All 4 tools — compress, convert, merge, split',
-      'Browser-side processing · no uploads',
+      'Merge, split and JPG to PDF — unlimited, no account',
+      'Compressors: 3 operations/day as a guest, 20/day signed in',
+      '50 pages per operation signed in (15 as a guest)',
+      '25 MB max file size signed in (10 MB as a guest)',
+      'No watermarks on anything you download',
     ],
     cta: 'Get started free',
     href: '/register',
@@ -43,11 +43,11 @@ const PLANS = [
     price: { monthly: '₹999', annual: '₹749' },
     description: 'For professionals and high-volume workflows.',
     features: [
-      'Unlimited operations/day',
-      '200 pages per operation',
+      'Unlimited compressor operations per day',
+      'No page limit per operation',
       '100 MB max file size',
-      'All 4 tools + future tools',
-      'API access (500 req / hr)',
+      'All five tools, plus any tool added later',
+      'API access for the image compressor',
       'Priority support',
     ],
     cta: 'Upgrade to Pro',
@@ -59,8 +59,8 @@ const PLANS = [
 const FAQS = [
   { q: 'Can I cancel my subscription at any time?', a: 'Yes — cancel anytime from your account settings. Your Pro access continues until the end of the current billing period with no extra charges.' },
   { q: 'What happens to my account when I cancel?', a: 'Your account stays active on the Free plan. All your history is preserved; you simply revert to Free limits.' },
-  { q: 'Do you offer refunds?', a: 'Yes. If you are not satisfied within the first 7 days of a new Pro subscription, contact us for a full refund — no questions asked.' },
-  { q: 'Are payments secure?', a: 'Payments are processed by Razorpay, a PCI DSS-compliant payment gateway trusted by 500,000+ businesses in India. We never store your card details.' },
+  { q: 'Do you offer refunds?', a: 'Yes. Contact us within 7 days of a new Pro subscription and we will refund it in full.' },
+  { q: 'Are payments secure?', a: 'Payments are processed by Razorpay, a PCI DSS-compliant payment gateway. Your card details go to Razorpay and are never stored by us.' },
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -175,7 +175,8 @@ export default function PricingPage() {
               Simple, transparent pricing
             </h1>
             <p className="text-lg text-slate-500 mb-8">
-              Start free. Upgrade only when you need more volume or API access.
+              Every tool is free to use. Upgrade only if you need higher limits on the
+              image and PDF compressors, or API access.
             </p>
             <div className="inline-flex items-center bg-slate-100 rounded-xl p-1 gap-1">
               <button

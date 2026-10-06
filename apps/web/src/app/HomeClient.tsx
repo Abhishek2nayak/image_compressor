@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { useSession, signIn } from 'next-auth/react';
 import {
@@ -10,59 +9,33 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { BRAND } from '@/lib/site';
+import { HOME_FAQS } from '@/lib/faq';
 
 const FORMATS = [
-  { ext: 'JPEG', emoji: '🖼️', color: 'bg-orange-50 border-orange-100', desc: 'Best for photos and images with rich gradients. Achieves 40–70% compression at quality 75.' },
-  { ext: 'PNG',  emoji: '🎨', color: 'bg-sky-50 border-sky-100',      desc: 'Lossless compression. Preserves transparency. Great for logos, icons, and UI graphics.' },
-  { ext: 'WebP', emoji: '⚡', color: 'bg-green-50 border-green-100',  desc: 'Modern format with 25–35% better compression than JPEG. Supported by all major browsers.' },
-  { ext: 'AVIF', emoji: '🚀', color: 'bg-violet-50 border-violet-100', desc: 'Next-generation format. Up to 50% smaller than JPEG with equivalent visual quality.' },
+  { ext: 'JPEG', emoji: '🖼️', color: 'bg-orange-50 border-orange-100', desc: 'Lossy format for photos and anything with soft gradients. You choose how far to push the quality.' },
+  { ext: 'PNG',  emoji: '🎨', color: 'bg-sky-50 border-sky-100',      desc: 'Lossless and keeps transparency. The right pick for logos, icons and UI graphics.' },
+  { ext: 'WebP', emoji: '⚡', color: 'bg-green-50 border-green-100',  desc: 'Modern format that is usually smaller than JPEG at a comparable quality. Every current browser supports it.' },
+  { ext: 'AVIF', emoji: '🚀', color: 'bg-violet-50 border-violet-100', desc: 'Newer still, and often smaller than WebP. Encoding takes longer, so expect a slightly slower compress.' },
 ];
 
 const FEATURES = [
-  { icon: Gauge,     title: 'Smart Compression',  desc: 'Advanced algorithms minimise file size while preserving visual quality across all compression levels.' },
-  { icon: Layers,    title: 'Batch Processing',    desc: 'Upload and compress up to 20 images at once. Download all results individually.' },
-  { icon: Code2,     title: 'Developer API',       desc: 'REST API with API key auth. Integrate image compression into any app, pipeline, or CMS.' },
-  { icon: Shield,    title: 'Secure & Private',    desc: 'Files are automatically deleted after 24 hours. We never access or share your images.' },
-  { icon: Clock,     title: 'Lightning Fast',      desc: 'Parallel processing queue handles thousands of images concurrently with near-instant results.' },
-  { icon: ImageIcon, title: 'All Major Formats',   desc: 'JPEG, PNG, WebP, and AVIF — the four formats that matter most for web and mobile.' },
+  { icon: Gauge,     title: 'Quality you control', desc: 'A 1–100 quality slider with a live estimate of the output size, so you can stop exactly where you need to.' },
+  { icon: Layers,    title: 'Up to 20 at once',    desc: 'Compress up to 20 images in a single batch and download each result as it finishes.' },
+  { icon: Code2,     title: 'Developer API',       desc: 'A REST API with key authentication for the image compressor, available on the Pro plan.' },
+  { icon: Shield,    title: 'Clear about uploads', desc: 'Merge, split and JPG to PDF never upload anything. Image and PDF compression run on our server — see the FAQ for exactly how long files are kept.' },
+  { icon: Clock,     title: 'No watermarks',       desc: 'Nothing is stamped onto your files, and you are never asked for an email before a download.' },
+  { icon: ImageIcon, title: 'Four image formats',  desc: 'JPEG, PNG, WebP and AVIF, both for compression and for converting into a PDF.' },
 ];
 
 const STEPS = [
-  { n: '01', title: 'Select images',       desc: 'Drag and drop up to 20 images or click to browse. No account required. Supports JPEG, PNG, WebP, AVIF up to 25 MB each.' },
-  { n: '02', title: 'Adjust quality',      desc: 'Slide to any quality from 1 to 100. Higher values = better quality, lower = smaller file. See the estimated output size in real time.' },
-  { n: '03', title: 'Download optimised',  desc: 'Click Compress and your files are ready in seconds. Download each result individually, or grab all at once.' },
+  { n: '01', title: 'Pick a tool',         desc: 'Compress an image, convert JPG to PDF, or merge, split and compress PDF files. No account needed for any of them.' },
+  { n: '02', title: 'Add your files',      desc: 'Drag and drop, or browse. Merge, split and JPG to PDF open the file in your browser; the two compressors upload it to our server.' },
+  { n: '03', title: 'Download the result', desc: 'No watermark and no sign-up wall. The file is ready as soon as processing finishes.' },
 ];
 
-const FAQS = [
-  {
-    q: 'How do I compress an image without losing quality?',
-    a: 'Set the quality slider to 75–85. This range strips invisible data (EXIF metadata, redundant colour information) that the human eye cannot perceive, typically achieving 40–60% file reduction with zero visible difference.',
-  },
-  {
-    q: 'What image formats does the image compressor support?',
-    a: 'The image compressor supports JPEG (JPG), PNG, WebP, and AVIF — the four formats that cover virtually all web, mobile, and photography use cases.',
-  },
-  {
-    q: 'Is there a file size limit for uploads?',
-    a: 'Each file can be up to 25 MB. You can compress images without an account. Sign up free to track history, or upgrade to Pro for 500 images per day plus API access.',
-  },
-  {
-    q: 'Are my uploaded images stored permanently?',
-    a: 'No. All files — original uploads and compressed outputs — are permanently and automatically deleted after 24 hours. We never access, analyse, or share your images.',
-  },
-  {
-    q: 'Can I compress multiple images at once?',
-    a: 'Yes. Drop up to 20 images at once. Each image is processed in parallel. When all are done you can download them individually.',
-  },
-  {
-    q: 'What is the difference between quality levels?',
-    a: 'Higher quality (85–100) is nearly lossless — ideal for print or archival. Balanced (50–70) is the sweet spot for most web images. Lower values (1–30) maximise compression at the cost of some visible quality — useful for thumbnails.',
-  },
-];
 
 export default function HomePage() {
   const { data: session } = useSession();
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
     <>
@@ -111,7 +84,7 @@ export default function HomePage() {
 
             <div className="relative max-w-3xl mx-auto px-4 pt-16 pb-10 text-center">
               <div className="inline-flex items-center gap-1.5 bg-red-50 border border-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full mb-6 shadow-sm">
-                <FileText className="w-3 h-3" /> 100% Free · No Sign-up Required
+                <FileText className="w-3 h-3" aria-hidden="true" /> Free to use · No account needed
               </div>
               <h1 className="text-5xl sm:text-[3.75rem] font-black tracking-tight leading-[1.06] mb-5">
                 <span className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
@@ -132,7 +105,7 @@ export default function HomePage() {
                 Start Compressing Images <ArrowRight className="w-4 h-4" />
               </Link>
               <div className="flex flex-wrap justify-center gap-2 mt-6">
-                {['✓ No sign-up required', '✓ JPEG · PNG · WebP · AVIF', '✓ Files deleted after 24h'].map(f => (
+                {['✓ No account needed', '✓ No watermarks', '✓ Merge, split & JPG to PDF never upload'].map(f => (
                   <span key={f} className="text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-full px-3.5 py-1.5 shadow-sm">
                     {f}
                   </span>
@@ -159,7 +132,7 @@ export default function HomePage() {
                   </div>
                   <h3 className="font-bold text-slate-800 mb-1.5 text-lg">Image Compressor</h3>
                   <p className="text-sm text-slate-500 leading-relaxed flex-1">
-                    Reduce JPEG, PNG, WebP and AVIF file sizes by up to 80% without visible quality loss. Free, instant, no account needed.
+                    Shrink JPEG, PNG, WebP and AVIF files with a quality slider and a live size estimate. Aim for a specific KB and stop there.
                   </p>
                   <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-red-500 group-hover:gap-2.5 transition-all">
                     Compress Images <ArrowRight className="w-4 h-4" />
@@ -227,7 +200,7 @@ export default function HomePage() {
                   </div>
                   <h3 className="font-bold text-slate-800 mb-1.5 text-lg">Compress PDF</h3>
                   <p className="text-sm text-slate-500 leading-relaxed flex-1">
-                    Reduce PDF file size by re-optimising its internal structure. Quota-enforced, processed securely on our servers.
+                    Shrink a PDF by rebuilding its internal structure. Processed on our server and deleted the moment your download starts.
                   </p>
                   <div className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-purple-600 group-hover:gap-2.5 transition-all">
                     Compress PDF <ArrowRight className="w-4 h-4" />
@@ -236,23 +209,6 @@ export default function HomePage() {
               </div>
             </div>
           </section>
-
-          {/* ── Stats ── */}
-          <section className="bg-[#f8fafc]">
-            <div className="max-w-4xl mx-auto px-4 py-12 grid grid-cols-3 gap-6 text-center">
-              {[
-                { value: '50M+', label: 'Images compressed' },
-                { value: '78%',  label: 'Average file reduction' },
-                { value: '150+', label: 'Countries served' },
-              ].map(s => (
-                <div key={s.label}>
-                  <div className="text-3xl sm:text-4xl font-black text-slate-900 mb-1">{s.value}</div>
-                  <div className="text-sm text-slate-500 font-medium">{s.label}</div>
-                </div>
-              ))}
-            </div>
-          </section>
-
           {/* ── How it works ── */}
           <section id="how-it-works" className="py-20 bg-white">
             <div className="max-w-5xl mx-auto px-4">
@@ -320,21 +276,19 @@ export default function HomePage() {
                 <p className="text-slate-500 text-lg">How the tools work, what the limits are, and where your files go.</p>
               </div>
               <div className="space-y-2.5">
-                {FAQS.map((faq, i) => (
-                  <div key={i} className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
-                    <button
-                      className="w-full flex items-center justify-between px-6 py-4 text-left gap-4 hover:bg-slate-50 transition-colors"
-                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    >
-                      <span className="font-bold text-slate-800 text-sm sm:text-[0.9375rem] leading-snug">{faq.q}</span>
-                      <ChevronDown className={cn('w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200', openFaq === i && 'rotate-180')} />
-                    </button>
-                    {openFaq === i && (
-                      <div className="px-6 pb-5 text-sm text-slate-500 leading-relaxed border-t border-slate-100 pt-4">
-                        {faq.a}
-                      </div>
-                    )}
-                  </div>
+                {HOME_FAQS.map((faq, i) => (
+                  <details
+                    key={i}
+                    className="group border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm"
+                  >
+                    <summary className="flex items-center justify-between px-6 py-4 text-left gap-4 hover:bg-slate-50 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                      <h3 className="font-bold text-slate-800 text-sm sm:text-[0.9375rem] leading-snug">{faq.q}</h3>
+                      <ChevronDown className="w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
+                    </summary>
+                    <div className="px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-4">
+                      {faq.a}
+                    </div>
+                  </details>
                 ))}
               </div>
             </div>
@@ -345,11 +299,11 @@ export default function HomePage() {
             <div className="max-w-2xl mx-auto px-4 text-center">
               <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Pick a tool and get started</h2>
               <p className="text-red-100 text-lg mb-8 leading-relaxed">
-                Create a free account to unlock history, batch processing, and full API access.
+                Every tool is free and needs no account. Sign in only if you want a higher daily limit on the compressors, or API access.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link href="/compress-image" className="bg-white text-red-600 rounded-xl px-8 py-3.5 font-black text-sm hover:bg-red-50 transition-colors shadow-lg shadow-red-900/30">
-                  Try Image Compressor
+                  Compress an image
                 </Link>
                 <Link href="/register" className="border border-red-300/60 text-white rounded-xl px-8 py-3.5 font-bold text-sm hover:bg-white/10 transition-colors">
                   Get started free

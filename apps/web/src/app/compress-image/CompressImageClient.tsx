@@ -221,11 +221,11 @@ export default function CompressImagePage() {
             </div>
 
             <h1 className="text-3xl font-black text-slate-900 mb-2">
-              {isEmptyDragActive ? 'Drop your images' : 'Compress Images'}
+              {isEmptyDragActive ? 'Drop your images' : 'Compress images online'}
             </h1>
             <p className="text-slate-400 mb-8 max-w-sm leading-relaxed">
-              Reduce JPEG, PNG, WebP and AVIF file sizes by up to 80%
-              without visible quality loss. Free, no sign-up required.
+              Reduce JPEG, PNG, WebP and AVIF file sizes with a quality slider and a
+              live estimate of the result. Free, and no account needed to start.
             </p>
 
             <button
@@ -482,7 +482,7 @@ export default function CompressImagePage() {
                 )}
 
                 <p className="text-xs text-slate-400 text-center mt-4">
-                  Files deleted automatically after 24 hours
+                  Uploaded and compressed images are deleted after 24 hours
                 </p>
               </div>
             </div>

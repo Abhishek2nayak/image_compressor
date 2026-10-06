@@ -153,11 +153,12 @@ export default function CompressPdfPage() {
               />
             </div>
             <h1 className="text-3xl font-black text-slate-900 mb-2">
-              {isDragActive ? 'Drop your PDF' : 'Compress PDF'}
+              {isDragActive ? 'Drop your PDF' : 'Compress a PDF'}
             </h1>
             <p className="text-slate-400 mb-8 max-w-sm leading-relaxed">
-              Reduce PDF file size by re-optimising the internal structure — processed securely
-              on our servers, never shared.
+              Reduce PDF file size by rebuilding the internal structure. This tool
+              uploads your file to our server, then deletes it as soon as the
+              compressed copy is sent back.
             </p>
             <button
               type="button"
@@ -301,7 +302,7 @@ export default function CompressPdfPage() {
               </button>
 
               <p className="text-xs text-slate-400 text-center">
-                Files are deleted from our servers immediately after processing
+                Your file is deleted from our server as soon as the download is sent
               </p>
             </div>
 
