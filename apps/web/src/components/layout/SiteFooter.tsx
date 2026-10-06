@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { LogoFull } from '@/components/brand/Logo';
+import { Logo } from '@/components/brand/Logo';
 import { BRAND, TOOLS } from '@/lib/site';
 
 /**
@@ -12,7 +12,7 @@ export function SiteFooter() {
       <div className="max-w-6xl mx-auto px-4 py-14">
         <div className="grid sm:grid-cols-4 gap-8 mb-10">
           <div className="sm:col-span-2">
-            <LogoFull width={200} className="mb-4 h-auto w-[200px]" />
+            <Logo size={36} light className="mb-4" />
             <p className="text-sm leading-relaxed max-w-xs">
               Free online PDF and image tools. No account needed, no watermarks on
               your files.
