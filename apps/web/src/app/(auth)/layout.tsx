@@ -13,11 +13,15 @@ export const metadata: Metadata = {
  * Split screen: the form on the left, the product showcase on the right.
  * Below lg the showcase is dropped and the form becomes a normal centred
  * column, so the page stays usable on a phone.
+ *
+ * The tracks are minmax(0,Nfr) rather than plain Nfr: a bare `fr` resolves to
+ * minmax(auto, Nfr), so a wide piece of content in one column can refuse to
+ * shrink and squeeze the other one down to nothing.
  */
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen lg:grid lg:grid-cols-[1fr_1fr] xl:grid-cols-[5fr_6fr]">
-      <div className="flex flex-col min-h-screen lg:min-h-0 bg-white">
+    <div className="min-h-screen lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+      <div className="flex flex-col min-w-0 min-h-screen lg:min-h-0 bg-white">
         <div className="flex items-center justify-between px-6 sm:px-10 py-6">
           <Link href="/" aria-label="My PDF Hub home">
             <Logo size={30} />
