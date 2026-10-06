@@ -1,13 +1,25 @@
 import { MetadataRoute } from 'next';
+import { TOOLS, absoluteUrl } from '@/lib/site';
 
-const BASE_URL = 'https://imagepress.app';
-
+/**
+ * Only indexable, self-canonical URLs belong here. Login, register, dashboard
+ * and api-keys are noindex, so they are deliberately absent.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
+  const lastModified = new Date();
+
   return [
-    { url: BASE_URL,                   lastModified: new Date(), changeFrequency: 'weekly',  priority: 1.0 },
-    { url: `${BASE_URL}/pricing`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${BASE_URL}/docs`,         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${BASE_URL}/register`,     lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.6 },
-    { url: `${BASE_URL}/login`,        lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.4 },
+    {
+      url: absoluteUrl('/'),
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 1.0,
+    },
+    ...TOOLS.map(tool => ({
+      url: absoluteUrl(tool.slug),
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.9,
+    })),
   ];
 }
