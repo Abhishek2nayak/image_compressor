@@ -32,6 +32,10 @@ export default function HomePage() {
       description: 'Free online tools for PDFs, images, text and everyday calculations — all in your browser.',
     },
     {
+      '@context': 'https://schema.org', '@type': 'Organization', name: 'VYOOOM', url: 'https://vyooom.com',
+      logo: 'https://vyooom.com/icon-512.png',
+    },
+    {
       '@context': 'https://schema.org', '@type': 'ItemList',
       itemListElement: TOOLS.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, url: `https://vyooom.com/${t.slug}` })),
     },

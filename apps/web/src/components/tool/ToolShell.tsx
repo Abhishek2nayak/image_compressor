@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { ArrowUpRight, ChevronDown, ChevronRight, ShieldCheck } from 'lucide-react';
 import { CATEGORIES, SISTER_SITES, getCategory, relatedTools, toolsInCategory, type Tool } from '@/lib/tools';
 import { Logo } from '@/components/shell/Logo';
+import { toolContent } from '@/content/tool-content';
 import { FavoriteButton, SearchTrigger, ThemeToggle } from '@/components/shell/controls';
 
 const BASE_URL = 'https://vyooom.com';
@@ -68,6 +69,8 @@ export function ToolShell({ tool, children }: { tool: Tool; children: ReactNode 
   const category = getCategory(tool.category);
   const related = relatedTools(tool, 6);
   const url = `${BASE_URL}/${tool.slug}`;
+  const article = toolContent(tool.slug);
+  const faqs = [...(tool.faqs ?? []), ...(article?.faqs ?? [])].filter((f, i, all) => all.findIndex(g => g.q === f.q) === i);
 
   const jsonLd: object[] = [
     {
@@ -91,11 +94,11 @@ export function ToolShell({ tool, children }: { tool: Tool; children: ReactNode 
       ],
     },
   ];
-  if (tool.faqs?.length) {
+  if (faqs.length) {
     jsonLd.push({
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: tool.faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+      mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
     });
   }
 
@@ -133,11 +136,36 @@ export function ToolShell({ tool, children }: { tool: Tool; children: ReactNode 
           {tool.privacyNote ?? 'Runs entirely in your browser. Nothing you add is uploaded or stored.'}
         </p>
 
-        {tool.faqs && tool.faqs.length > 0 && (
+        {article && (
+          <section className="mt-16 max-w-3xl">
+            <h2 className="text-xl font-bold text-slate-900 mb-4">{article.heading}</h2>
+            <div className="space-y-4 text-[15px] text-slate-600 leading-relaxed">
+              {article.intro.map(p => <p key={p}>{p}</p>)}
+            </div>
+            <h3 className="text-base font-bold text-slate-900 mt-8 mb-4">How to use it</h3>
+            <ol className="space-y-4">
+              {article.steps.map((step, i) => (
+                <li key={step.title} className="flex gap-3.5">
+                  <span aria-hidden="true" className="shrink-0 w-7 h-7 rounded-full bg-brand-50 text-brand-700 text-xs font-bold flex items-center justify-center">{i + 1}</span>
+                  <div className="min-w-0">
+                    <h4 className="font-semibold text-sm text-slate-900">{step.title}</h4>
+                    <p className="text-sm text-slate-600 leading-relaxed">{step.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <h3 className="text-base font-bold text-slate-900 mt-8 mb-3">Limits</h3>
+            <ul className="list-disc pl-5 space-y-1.5 text-sm text-slate-600 leading-relaxed">
+              {article.limits.map(l => <li key={l}>{l}</li>)}
+            </ul>
+          </section>
+        )}
+
+        {faqs.length > 0 && (
           <section className="mt-16">
             <h2 className="text-xl font-bold text-slate-900 mb-4">Frequently asked questions</h2>
             <div className="divide-y divide-slate-200 border-y border-slate-200">
-              {tool.faqs.map(f => (
+              {faqs.map(f => (
                 <details key={f.q} className="group">
                   <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none font-medium text-[15px] text-slate-800 [&::-webkit-details-marker]:hidden">
                     {f.q}
