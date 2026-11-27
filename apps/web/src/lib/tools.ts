@@ -124,6 +124,7 @@ export const ALL_TOOLS: Tool[] = [
 
   // ───────────────────────── Image ─────────────────────────
   { slug: 'compress-image', name: 'Image Compressor', category: 'image', icon: ImageIcon,
+    hidden: true /* removed 2026-11-27: often produced larger files; rebuild before restoring */,
     short: 'Shrink JPG, PNG, WebP and AVIF files.',
     description: 'Reduce JPEG, PNG, WebP and AVIF file sizes by up to 80% without visible quality loss.',
     keywords: ['compress image', 'image compressor', 'reduce image size'] },
@@ -544,7 +545,7 @@ export const TOOLS: Tool[] = ALL_TOOLS.filter(t => !t.hidden);
 
 /** Most-searched tools: the home page "Popular" row and the dock's default shortcuts. */
 export const POPULAR_SLUGS = [
-  'compress-image', 'merge-pdf', 'compress-image-to-kb', 'jpg-to-pdf', 'income-tax-calculator', 'ai-text-cleaner', 'resize-image', 'word-counter',
+  'merge-pdf', 'jpg-to-pdf', 'whatsapp-chat-analyzer', 'resize-image', 'ai-text-cleaner', 'digicam-filter', 'instagram-unfollowers', 'word-counter',
 ];
 
 const BY_SLUG = new Map(TOOLS.map(t => [t.slug, t]));

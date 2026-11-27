@@ -172,15 +172,39 @@ export default function PhotoBoothStrip() {
     setShots(prev => [...prev, ...imgs].slice(-need));
   }
 
+  // Attach the stream once the <video> has actually rendered. (Setting it in the
+  // same tick as setCamOn raced the render on phones and left a black box.)
+  useEffect(() => {
+    const v = videoRef.current;
+    const stream = streamRef.current;
+    if (!camOn || !v || !stream) return;
+    v.srcObject = stream;
+    const play = () => { v.play().catch(() => {}); };
+    if (v.readyState >= 1) play(); else v.addEventListener('loadedmetadata', play, { once: true });
+    return () => v.removeEventListener('loadedmetadata', play);
+  }, [camOn]);
+
   async function startCamera() {
     setError('');
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setError('This browser can’t open the camera here. Make sure the page is on https, or upload photos instead.');
+      return;
+    }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 960 } }, audio: false });
+      let stream: MediaStream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 960 } }, audio: false });
+      } catch (e) {
+        // Some phones reject the size hints; retry with any camera.
+        if ((e as DOMException)?.name === 'NotAllowedError') throw e;
+        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      }
       streamRef.current = stream;
       setCamOn(true);
-      requestAnimationFrame(() => { if (videoRef.current) { videoRef.current.srcObject = stream; videoRef.current.play().catch(() => {}); } });
-    } catch {
-      setError('Camera access was blocked or no camera was found. You can upload photos instead.');
+    } catch (e) {
+      setError((e as DOMException)?.name === 'NotAllowedError'
+        ? 'Camera permission was denied. Allow camera access for this site in your browser settings, or upload photos instead.'
+        : 'No camera was found or it’s in use by another app. You can upload photos instead.');
     }
   }
 
@@ -243,7 +267,7 @@ export default function PhotoBoothStrip() {
 
           {camOn && (
             <div className="relative rounded-xl overflow-hidden bg-black aspect-[4/3]">
-              <video ref={videoRef} playsInline muted className="w-full h-full object-cover -scale-x-100" />
+              <video ref={videoRef} playsInline muted autoPlay className="w-full h-full object-cover -scale-x-100" />
               {count !== null && count > 0 && (
                 <div className="absolute inset-0 flex items-center justify-center text-white text-8xl font-black drop-shadow-lg">{count}</div>
               )}

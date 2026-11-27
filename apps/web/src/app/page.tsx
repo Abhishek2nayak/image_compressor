@@ -22,7 +22,6 @@ const FAQS = [
   { q: 'Is VYOOOM really free?', a: 'Yes. Every tool is free to use with no account, no watermark and no daily limit.' },
   { q: 'How do I find a tool quickly?', a: 'Press Ctrl + K (⌘ + K on Mac) or the / key on any page and start typing. Tools you pin with the star, and tools you use often, appear in the dock at the bottom of the screen.' },
   { q: 'Do the tools work offline?', a: 'Once a tool page has loaded, most tools keep working even if your connection drops, because the work happens on your device.' },
-  { q: 'How do I compress an image without losing quality?', a: 'Open the Image Compressor and set quality to 75–85. This range removes detail the eye can’t see, typically saving 40–60% with no visible difference.' },
 ];
 
 export default function HomePage() {
@@ -61,7 +60,7 @@ export default function HomePage() {
               {TOOLS.length} free tools · nothing leaves your device
             </p>
             <h1 className="mt-7 text-[40px] leading-[1.05] sm:text-6xl sm:leading-[1.02] font-extrabold tracking-[-0.035em] text-slate-900">
-              Everyday tools that<br className="hidden sm:block" /> never upload your files.
+              Everyday tools for<br className="hidden sm:block" /> daily hustlers.
             </h1>
             <p className="mt-5 text-lg text-slate-500 max-w-xl mx-auto leading-relaxed">
               PDFs, images, text and calculators — fast, free and private, running entirely in your browser.

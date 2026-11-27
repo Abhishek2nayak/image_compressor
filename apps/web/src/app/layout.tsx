@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description:
     'Free online tools for PDFs, images and text, plus EMI, SIP, GST and age calculators. Everything runs in your browser — no sign-up, no upload.',
   keywords: [
-    'online tools', 'free online tools', 'pdf tools', 'merge pdf', 'image compressor', 'resize image',
+    'online tools', 'free online tools', 'pdf tools', 'merge pdf', 'resize image', 'whatsapp chat analyzer',
     'emi calculator', 'word counter', 'no upload', 'browser tools', 'vyooom',
   ],
   authors: [{ name: 'VYOOOM' }],
@@ -42,11 +42,10 @@ export const metadata: Metadata = {
   },
   // No site-wide canonical here: it would be inherited by every page and mark
   // them all as duplicates of the home page. Tool pages set their own.
-  // The old Search Console token belonged to the previous domain. Set
-  // NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION to the token Google gives for vyooom.com.
-  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
-    : {}),
+  // Google Search Console ownership token for vyooom.com.
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || 'X2Gcqjq87dLOg1Mi9WdvM30gYDoZsXD8btatmyoLD9o',
+  },
 };
 
 export const viewport: Viewport = {

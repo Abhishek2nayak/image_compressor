@@ -139,9 +139,9 @@ function DockMenu({ currentSlug }: { currentSlug?: string }) {
       <div className="fixed inset-0 z-40 bg-black/25 animate-fade-in print:hidden" onClick={closeOverlay} aria-hidden="true" />
       <div
         role="dialog" aria-label="All tools"
-        className="fixed z-50 left-1/2 -translate-x-1/2 bottom-[84px] sm:bottom-[92px] w-[min(760px,calc(100vw-24px))] max-h-[min(72vh,640px)] flex flex-col rounded-2xl border border-slate-200 bg-white shadow-2xl animate-pop-in print:hidden"
+        className="fixed z-50 left-1/2 -translate-x-1/2 bottom-[calc(84px+env(safe-area-inset-bottom,0px))] sm:bottom-[calc(92px+env(safe-area-inset-bottom,0px))] w-[min(760px,calc(100vw-24px))] max-h-[min(72vh,640px)] flex flex-col rounded-2xl border border-slate-200 bg-white shadow-2xl animate-pop-in print:hidden"
       >
-        <div className="flex items-center gap-2 p-3 border-b border-slate-200">
+        <div className="shrink-0 flex items-center gap-2 p-3 border-b border-slate-200">
           <div className="relative flex-1">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
@@ -155,7 +155,7 @@ function DockMenu({ currentSlug }: { currentSlug?: string }) {
           </button>
         </div>
 
-        <div className="flex gap-1.5 px-3 py-2.5 overflow-x-auto scrollbar-none border-b border-slate-100" role="tablist" aria-label="Categories">
+        <div className="shrink-0 flex gap-1.5 px-3 py-2.5 overflow-x-auto scrollbar-none border-b border-slate-100" role="tablist" aria-label="Categories">
           {([{ id: 'all', label: 'All' }, ...CATEGORIES] as { id: CategoryId | 'all'; label: string }[]).map(c => (
             <button
               key={c.id} type="button" role="tab" aria-selected={cat === c.id} onClick={() => setCat(c.id)}
@@ -169,7 +169,7 @@ function DockMenu({ currentSlug }: { currentSlug?: string }) {
           ))}
         </div>
 
-        <div className="overflow-y-auto p-3 space-y-4">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3 space-y-4">
           {results.length === 0 && <p className="py-8 text-center text-sm text-slate-500">No tools match “{query}”.</p>}
           {grouped.filter(g => g.tools.length).map(g => (
             <section key={g.id}>

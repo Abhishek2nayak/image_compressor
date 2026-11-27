@@ -25,15 +25,39 @@
   .scrollbar-none::-webkit-scrollbar { display: none; }
 }
 
-/* Custom range slider — cross-browser */
+/* Custom range slider — cross-browser. The track must be drawn explicitly:
+   with appearance:none, iOS Safari and Chrome otherwise show only the thumb. */
 input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
   outline: none;
+  background: transparent;
+  height: 28px;
+  cursor: pointer;
+  color: rgb(var(--brand-600));
+  touch-action: pan-y;
 }
+input[type='range']:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgb(var(--brand-500) / 0.3); }
+input[type='range']::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: rgb(var(--n-200));
+}
+input[type='range']::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: rgb(var(--n-200));
+}
+input[type='range']::-moz-range-progress {
+  height: 6px;
+  border-radius: 9999px;
+  background: currentColor;
+}
+input[type='range']:disabled { opacity: 0.5; cursor: default; }
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
+  margin-top: -7px; /* centre the 20px thumb on the 6px track */
   width: 20px;
   height: 20px;
   border-radius: 50%;

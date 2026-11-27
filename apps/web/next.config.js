@@ -18,7 +18,7 @@ const nextConfig = {
     return [
       // Temporarily hidden while there is no backend (code kept in src/app/_disabled
       // and behind `hidden: true` in src/lib/tools.ts). Remove a line to bring it back.
-      ...['/compress-pdf', '/remove-background', '/docs', '/pricing', '/login', '/register', '/dashboard', '/api-keys', '/compress']
+      ...['/compress-pdf', '/compress-image', '/remove-background', '/docs', '/pricing', '/login', '/register', '/dashboard', '/api-keys', '/compress']
         .map(source => ({ source, destination: '/', permanent: false })),
       // Registered but not built yet (hidden in src/lib/tools.ts). Remove a slug once its tool ships.
       ...['organize-pdf', 'add-page-numbers', 'sign-pdf', 'redact-pdf', 'compress-image-to-kb', 'exam-photo-resizer', 'passport-photo-maker', 'social-media-image-resizer', 'image-color-palette', 'meme-generator', 'blur-image', 'heic-to-jpg', 'image-to-text', 'income-tax-calculator', 'salary-calculator', 'cgpa-to-percentage', 'attendance-calculator', 'pomodoro-timer', 'time-zone-converter', 'invoice-generator', 'screen-recorder', 'voice-recorder']

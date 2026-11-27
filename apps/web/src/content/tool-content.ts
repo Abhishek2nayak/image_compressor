@@ -26,25 +26,6 @@ export interface ToolContent {
 const LOCAL = 'No daily limit and nothing is uploaded — the work happens on your device.';
 
 export const TOOL_CONTENT: Record<string, ToolContent> = {
-  'compress-image': {
-    heading: 'About this image compressor',
-    intro: [
-      'Most upload forms cap the file size rather than the dimensions, so a 4 MB photo straight off a phone gets rejected even though it looks fine. This tool re-encodes the image at a quality you choose, which removes detail the eye barely registers and brings the file size down with it.',
-      'Compression runs in your browser on a canvas, so your photos never leave your device and you can compress as many as you like. Add several at once and each one shows its size before and after.',
-      'JPEG and WebP files are re-encoded at the quality you set; 70 to 80 is usually where the file gets much smaller and the picture still looks right. PNG is lossless, so the quality slider does not apply and a PNG of a photo will not shrink much — converting it to JPEG first does far more.',
-    ],
-    steps: [
-      { title: 'Add your images', body: 'Drop in JPG, PNG or WebP files, or tap to choose them. You can add several at once.' },
-      { title: 'Set the quality', body: 'Lower quality means a smaller file. Around 75–85 is a safe balance for photos.' },
-      { title: 'Compress and download', body: 'Each image shows its original and new size, so you can see what you saved. Download them one by one or all together.' },
-    ],
-    limits: [LOCAL, 'Up to 50 MB per image.', 'PNG files are saved losslessly, so they shrink far less than JPEGs.'],
-    faqs: [
-      { q: 'How do I reduce an image to 20 KB for a form?', a: 'Lower the quality to around 30–40 and check the new size. Small targets are easier to hit when the image isn’t huge, so crop or resize a very large photo first.' },
-      { q: 'Will compressing make my photo blurry?', a: 'At high quality the difference is hard to see. Lower settings start to show soft edges and blocky patches in smooth areas like sky or skin. Always compress from the original, since the loss builds up each time.' },
-    ],
-  },
-
   'resize-image': {
     heading: 'About this image resizer',
     intro: [

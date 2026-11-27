@@ -52,7 +52,7 @@ The page, metadata, structured data and sitemap entry are generated automaticall
 
 | Variable | Description |
 |----------|-------------|
-| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Google Search Console token for vyooom.com (optional) |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Overrides the built-in Google Search Console token (optional) |
 
 ## Brand
 
