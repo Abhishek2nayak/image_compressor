@@ -2,56 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 243 75% 59%;        /* indigo-600 #4f46e5 */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 243 75% 59%;
-    --radius: 0.625rem;
-  }
+/* Colour tokens live in tailwind.config.ts (they are generated there for both themes). */
 
-  .dark {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
-    --card: 222 47% 11%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 243 75% 66%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 217 33% 18%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 18%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 217 33% 18%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 18%;
-    --input: 217 33% 18%;
-    --ring: 243 75% 66%;
+@layer base {
+  * { @apply border-slate-200; }
+  html { -webkit-tap-highlight-color: transparent; }
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  ::selection { @apply bg-brand-200 text-slate-900; }
+  :focus-visible { outline: 2px solid rgb(var(--brand-500)); outline-offset: 2px; }
+  input:focus-visible, textarea:focus-visible, select:focus-visible { outline: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
   }
 }
 
-@layer base {
-  * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+@layer utilities {
+  .scrollbar-none { scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
 }
 
 /* Custom range slider — cross-browser */
@@ -66,7 +37,7 @@ input[type='range']::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: white;
+  background: rgb(var(--surface));
   border: 2.5px solid currentColor;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
   cursor: pointer;
@@ -80,8 +51,19 @@ input[type='range']::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: white;
+  background: rgb(var(--surface));
   border: 2.5px solid currentColor;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
   cursor: pointer;
+}
+
+/* Hummingbird "working…" state: the wings flutter around the body. */
+.logo-flap .logo-wing-l,
+.logo-flap .logo-wing-r { transform-box: view-box; transform-origin: 336px 380px; }
+.logo-flap .logo-wing-l { animation: logo-flap-l 0.14s ease-in-out infinite alternate; }
+.logo-flap .logo-wing-r { animation: logo-flap-r 0.14s ease-in-out infinite alternate; }
+@keyframes logo-flap-l { to { transform: rotate(16deg) scaleY(0.84); } }
+@keyframes logo-flap-r { to { transform: rotate(-16deg) scaleY(0.84); } }
+@media (prefers-reduced-motion: reduce) {
+  .logo-flap .logo-wing-l, .logo-flap .logo-wing-r { animation: none; }
 }

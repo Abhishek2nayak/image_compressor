@@ -38,3 +38,5 @@ apps/api/src/prisma/migrations/
 coverage/
 
 .claude
+# local verification builds (NEXT_DIST_DIR)
+.next-verify/

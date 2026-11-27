@@ -1,127 +1,61 @@
-# ImagePress — Image Compression SaaS
+# VYOOOM
 
-A production-ready image compression platform with API access, Stripe billing, and a modern SaaS UI.
+Free everyday tools that run entirely in the browser — PDF, image, social, AI helpers, text tools and calculators. Files never leave the visitor's device.
 
-## Tech Stack
+Live at **[vyooom.com](https://vyooom.com)**.
+
+## Tech stack
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | Next.js 14 (App Router), Tailwind CSS, TanStack Query, NextAuth.js |
-| Backend | Node.js, Express, TypeScript, Prisma ORM |
-| Compression | Sharp (JPEG, PNG, WebP, AVIF) |
-| Queue | BullMQ + Redis |
-| Database | PostgreSQL |
-| Auth | JWT + Google OAuth |
-| Billing | Stripe |
-| Storage | Local disk (S3 adapter ready) |
+| App | Next.js 15 (App Router), React 19, TypeScript |
+| Styling | Tailwind CSS with CSS-variable design tokens (automatic dark mode) |
+| PDF | pdf-lib, pdf.js, jsPDF |
+| Everything else | Web APIs: Canvas, MediaRecorder, Web Share, DecompressionStream |
 
-## Project Structure
+There is no server-side processing. Every tool must work client-side.
+
+## Project structure
 
 ```
-image-compressor/
-├── apps/
-│   ├── web/          # Next.js 14 frontend (port 3000)
-│   └── api/          # Express backend (port 4000)
-└── packages/
-    └── shared/       # Shared TypeScript types
+apps/
+  web/                    # the VYOOOM site
+    src/lib/tools.ts      # tool registry: drives home page, sitemap, SEO, routing
+    src/tools/            # one component per tool, code-split by slug
+    src/components/       # site shell (dock, ⌘K palette), shared tool UI
+    src/app/[slug]/       # every tool page is generated from the registry
+    src/app/_disabled/    # parked pages that need the old backend
+  api/                    # legacy backend (not used by the site)
+packages/
+  shared/                 # shared TypeScript types
 ```
 
-## Quick Start
+## Run it
 
-### 1. Prerequisites
-
-- Node.js >= 20
-- pnpm >= 9
-- Docker (for Postgres + Redis)
-
-### 2. Install dependencies
+Requires Node.js ≥ 20 and pnpm ≥ 9.
 
 ```bash
 pnpm install
+pnpm --filter web dev       # http://localhost:3000
+pnpm --filter web build     # production build
 ```
 
-### 3. Start infrastructure
+## Adding a tool
 
-```bash
-pnpm docker:up
-```
+1. Add an entry to `ALL_TOOLS` in `apps/web/src/lib/tools.ts` (slug, name, description, keywords, FAQs).
+2. Create the component in `apps/web/src/tools/<category>/`.
+3. Register it in `apps/web/src/tools/index.ts`.
 
-### 4. Set up environment variables
+The page, metadata, structured data and sitemap entry are generated automatically. Set `hidden: true` to switch a tool off without deleting it.
 
-```bash
-# Copy and fill in the required values
-cp apps/api/.env.example apps/api/.env
-cp apps/web/.env.local.example apps/web/.env.local
-```
-
-Minimum required for local dev (update `apps/api/.env`):
-- `JWT_SECRET` and `JWT_REFRESH_SECRET` — any random 32+ char strings
-- `NEXTAUTH_SECRET` — any random 32+ char string (in `apps/web/.env.local`)
-
-### 5. Run database migrations
-
-```bash
-pnpm db:migrate
-```
-
-### 6. Start development servers
-
-```bash
-pnpm dev
-```
-
-- Frontend: http://localhost:3000
-- API: http://localhost:4000
-- API health: http://localhost:4000/health
-
-## API Reference
-
-### Authentication
-
-Include your API key in the `X-API-Key` header:
-
-```bash
-curl -X POST http://localhost:4000/api/v1/compress \
-  -H "X-API-Key: ic_your_key" \
-  -F "image=@photo.jpg" \
-  -F "level=MEDIUM"
-```
-
-### Compression Levels
-
-| Level | JPEG/WebP/AVIF Quality | PNG Compression |
-|-------|------------------------|-----------------|
-| LOW | 85 | 3 |
-| MEDIUM | 75 | 6 |
-| HIGH | 60 | 9 |
-
-### Rate Limits
-
-| Tier | Web Uploads/Day | API Req/Hour |
-|------|-----------------|--------------|
-| Free | 10 | 20 |
-| Pro | 500 | 500 |
-
-## Environment Variables
-
-See [.env.example](.env.example) for the full list.
-
-### Required for full functionality
+## Environment variables
 
 | Variable | Description |
 |----------|-------------|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `REDIS_URL` | Redis connection string |
-| `JWT_SECRET` | JWT signing secret (32+ chars) |
-| `GOOGLE_CLIENT_ID/SECRET` | Google OAuth (optional) |
-| `STRIPE_SECRET_KEY` | Stripe (optional for billing) |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Google Search Console token for vyooom.com (optional) |
 
-## Features
+## Brand
 
-- **Image compression** — JPG, PNG, WebP, AVIF with adjustable quality
-- **Batch processing** — Upload up to 20 images, download as ZIP
-- **Authentication** — Email/password + Google OAuth
-- **Dashboard** — Usage stats, quota tracking, compression history
-- **API keys** — Generate and manage API keys for programmatic access
-- **Billing** — Stripe-powered Pro tier subscriptions
-- **Auto-cleanup** — Compressed files expire after 24 hours
+- Name: **VYOOOM** (all caps). Mark: the Ember hummingbird whose raised wings form the V.
+- Accent: Ember orange `#CF440D`, on warm graphite neutrals. No blue.
+- Logo files: `apps/web/public/brand/`.

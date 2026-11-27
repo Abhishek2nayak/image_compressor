@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { FEATURES } from '@/lib/features';
 
 // ── Env vars (set in .env.local) ──────────────────────────────────────────────
 const DROPBOX_APP_KEY  = process.env['NEXT_PUBLIC_DROPBOX_APP_KEY']  ?? '';
@@ -241,7 +242,13 @@ interface CloudFilePickerProps {
   className?: string;
 }
 
-export function CloudFilePicker({
+/** Renders nothing while FEATURES.cloudImport is off (it needs Google/Dropbox API keys). */
+export function CloudFilePicker(props: CloudFilePickerProps) {
+  if (!FEATURES.cloudImport) return null;
+  return <CloudFilePickerInner {...props} />;
+}
+
+function CloudFilePickerInner({
   onFiles,
   accept,
   multiple = false,

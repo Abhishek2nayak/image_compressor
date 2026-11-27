@@ -1,24 +1,17 @@
 'use client';
 
-import { SessionProvider } from 'next-auth/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { useState } from 'react';
+import { Toaster } from 'sonner';
+import { useThemeChoice } from '@/lib/prefs';
 
+// Auth and React Query were removed while the backend is off: no visible tool
+// uses them, and dropping them keeps them out of every page's JavaScript.
+// The previous version is kept at app/_disabled/providers.with-auth.tsx.
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: { queries: { staleTime: 60 * 1000, retry: 1 } },
-      }),
-  );
-
+  const theme = useThemeChoice();
   return (
-    <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </SessionProvider>
+    <>
+      {children}
+      <Toaster position="top-center" richColors theme={theme} />
+    </>
   );
 }

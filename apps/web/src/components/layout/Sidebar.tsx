@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -21,7 +21,7 @@ export function Sidebar() {
         <div className="w-7 h-7 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
           <FileText className="w-4 h-4 text-white" />
         </div>
-        <span className="font-bold text-lg">Easy PDF Studio</span>
+        <span className="font-bold text-lg">VYOOOM</span>
       </Link>
 
       <nav className="flex-1 space-y-1">

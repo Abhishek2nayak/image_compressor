@@ -1,13 +1,19 @@
 import { MetadataRoute } from 'next';
+import { TOOLS } from '@/lib/tools';
 
-const BASE_URL = 'https://imagepress.app';
+const BASE_URL = 'https://vyooom.com';
 
+// Generated from the tool registry so new tools are never missing.
+// Auth, pricing and /docs (redirects to /) are intentionally left out while they are disabled.
 export default function sitemap(): MetadataRoute.Sitemap {
+  const now = new Date();
   return [
-    { url: BASE_URL,                   lastModified: new Date(), changeFrequency: 'weekly',  priority: 1.0 },
-    { url: `${BASE_URL}/pricing`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${BASE_URL}/docs`,         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${BASE_URL}/register`,     lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.6 },
-    { url: `${BASE_URL}/login`,        lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.4 },
+    { url: BASE_URL, lastModified: now, changeFrequency: 'weekly', priority: 1.0 },
+    ...TOOLS.map(t => ({
+      url: `${BASE_URL}/${t.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.9,
+    })),
   ];
 }

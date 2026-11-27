@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>VYOOOM</title>
+  <rect width="512" height="512" rx="112" fill="#CF440D"/>
+  <g fill="#FFFFFF" transform="translate(256 262) scale(.62) translate(-334 -324)">
+    <path opacity=".6" d="M58 99C150 112 230 150 280 225C305 265 325 305 336 348L290 425C190 350 110 245 58 99Z"/>
+    <path d="M610 99C520 112 440 155 392 225C365 265 345 305 336 348L336 392 414 392C495 330 570 225 610 99Z"/>
+    <path d="M306 452 277 549 333 497 390 549 358 452Z"/>
+    <path d="M383 391 568 405 383 420Z"/>
+    <circle cx="333" cy="404" r="54"/>
+  </g>
+</svg>
